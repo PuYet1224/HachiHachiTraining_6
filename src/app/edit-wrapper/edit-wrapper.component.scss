@@ -1,0 +1,60 @@
+* {
+  font-size: 13px;
+  font-family: 'Mulish', sans-serif;
+}
+.body {
+  margin-left: 10px;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.sect{
+  margin: 0 0 10px 10px;
+}
+h2 {
+  font-weight: bold;
+}
+.main-content {
+  display: grid;
+  place-items: center;
+}
+.product-info-content {
+  background: #fff;
+  padding: 20px 20px;
+}
+.label {
+  font-weight: bold;
+  width: 268px;
+}
+.input-field {
+  height: 32px;
+  margin: 10px 0;
+  background: #fff;
+}
+.label-col4 {
+  display: flex;
+  gap: 10px;
+  .input-field {
+    width: 104px !important;
+  }
+}
+.col45 {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-col4 kendo-dropdownlist {
+  width: 268px;
+}
+.r4c4{
+margin-left: 0;
+}
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: auto;
+  clip-path: circle(50% at 50% 50%);
+  top: 110%;
+  left: 4%;
+}

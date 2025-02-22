@@ -1,0 +1,482 @@
+<div class="section-container" *ngIf="gridData && gridData.length">
+  <div class="section1">
+    <h2>1. THÔNG TIN CƠ BẢN</h2>
+    <kendo-gridlayout
+      class="product-info-content"
+      [gap]="{ rows: 6, cols: 60 }"
+      [cols]="[
+        { width: '270px' },
+        { width: '270px' },
+        { width: '270px' },
+        { width: '270px' }
+      ]"
+    >
+      <kendo-gridlayout-item class="main-content" [col]="1" [colSpan]="1">
+        <img src="../../assets/images/anhMinh.png" alt="Avatar" class="avatar" />
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item [col]="2" [colSpan]="1">
+        <kendo-label class="label" text="Họ">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].lastName"></kendo-textbox>
+        </kendo-label>
+        <kendo-label class="label" text="Tên đệm">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].middleName"></kendo-textbox>
+        </kendo-label>
+        <kendo-label class="label" text="Tên">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].firstName"></kendo-textbox>
+        </kendo-label>
+        <kendo-label class="label" text="Tên viết tắt">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].shortName"></kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item [col]="3" [colSpan]="1">
+        <kendo-label class="label" text="Giới tính">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="genderOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].gender"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Quốc tịch">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="nationalityOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [filterable]="true"
+            [(ngModel)]="gridData[0].nationality"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Dân tộc">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="ethnicityOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].ethnicity"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Tôn giáo">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="religionOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].religion"
+          ></kendo-dropdownlist>
+        </kendo-label>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item [col]="4" [colSpan]="1">
+        <kendo-label class="label dropdown-col4" text="Tình trạng hôn nhân"></kendo-label>
+        <kendo-dropdownlist
+          class="input-field"
+          [data]="maritalStatusOptions"
+          textField="text"
+          valueField="value"
+          [valuePrimitive]="true"
+          [(ngModel)]="gridData[0].maritalStatus"
+        ></kendo-dropdownlist>
+        <div></div>
+        <kendo-label class="label" text="Nguyên quán">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].placeOfOrigin"></kendo-textbox>
+        </kendo-label>
+        <div></div>
+        <kendo-label class="label" text="Ngày sinh (năm, tháng, ngày)">
+          <div class="label-col4">
+            <kendo-dropdownlist
+              class="input-field"
+              [data]="dayOptions"
+              [valuePrimitive]="true"
+              [(ngModel)]="gridData[0].birthDay"
+              (valueChange)="onDayChange(gridData[0])"
+              [defaultItem]="'Chọn ngày'"
+            ></kendo-dropdownlist>
+            <kendo-dropdownlist
+              class="input-field"
+              [data]="monthOptions"
+              [valuePrimitive]="true"
+              [(ngModel)]="gridData[0].birthMonth"
+              (valueChange)="onMonthChange(gridData[0])"
+              [defaultItem]="'Chọn tháng'"
+            ></kendo-dropdownlist>
+            <kendo-dropdownlist
+              class="input-field"
+              [data]="yearOptions"
+              [valuePrimitive]="true"
+              [(ngModel)]="gridData[0].birthYear"
+              [defaultItem]="'Chọn năm'"
+            ></kendo-dropdownlist>
+          </div>
+        </kendo-label>
+        <kendo-label class="label" text="Nơi sinh">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].placeOfBirth"></kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+    </kendo-gridlayout>
+  </div>
+
+  <div class="section2">
+    <h2>2. THÔNG TIN CHỨNG THỰC VÀ THUẾ</h2>
+    <kendo-gridlayout
+      class="product-info-content"
+      [gap]="{ rows: 6, cols: 60 }"
+      [cols]="[
+        { width: '270px' },
+        { width: '270px' },
+        { width: '270px' },
+        { width: '270px' }
+      ]"
+    >
+      <kendo-gridlayout-item class="main-content" [col]="1" [colSpan]="1">
+        <kendo-label class="label" text="Số CMND/CCCD">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].nationalId"></kendo-textbox>
+        </kendo-label>
+        <kendo-label class="label" text="Ngày cấp">
+          <kendo-datepicker
+            class="input-field input-field-dark"
+            calendarType="classic"
+            format="dd/MM/yyyy"
+            [(ngModel)]="gridData[0].nationalIdIssueDate"
+          ></kendo-datepicker>
+        </kendo-label>
+        <kendo-label class="label" text="Ngày hết hạn">
+          <kendo-datepicker
+            class="input-field input-field-dark"
+            calendarType="classic"
+            format="dd/MM/yyyy"
+            [(ngModel)]="gridData[0].nationalIdExpiryDate"
+          ></kendo-datepicker>
+        </kendo-label>
+        <kendo-label class="label" text="Nơi cấp">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].nationalIdIssuePlace"></kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item [col]="2" [colSpan]="1">
+        <kendo-label class="label" text="Số hộ chiếu (Passport)">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].passportNumber"></kendo-textbox>
+        </kendo-label>
+        <kendo-label class="label" text="Ngày cấp">
+          <kendo-datepicker
+            class="input-field input-field-dark"
+            calendarType="classic"
+            format="dd/MM/yyyy"
+            [(ngModel)]="gridData[0].passportIssueDate"
+          ></kendo-datepicker>
+        </kendo-label>
+        <kendo-label class="label" text="Ngày hết hạn">
+          <kendo-datepicker
+            class="input-field input-field-dark"
+            calendarType="classic"
+            format="dd/MM/yyyy"
+            [(ngModel)]="gridData[0].passportExpiryDate"
+          ></kendo-datepicker>
+        </kendo-label>
+        <kendo-label class="label" text="Nơi cấp">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].passportIssuePlace"></kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item [col]="3" [colSpan]="1">
+        <kendo-label class="label" text="Mã số thuế">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].taxId"></kendo-textbox>
+        </kendo-label>
+        <kendo-label class="label" text="Ngày đăng ký">
+          <kendo-datepicker
+            class="input-field input-field-dark"
+            calendarType="classic"
+            format="dd/MM/yyyy"
+            [(ngModel)]="gridData[0].taxRegistrationDate"
+          ></kendo-datepicker>
+        </kendo-label>
+        <kendo-label class="label" text="Nơi đăng ký">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].taxRegistrationPlace"></kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+    </kendo-gridlayout>
+  </div>
+
+  <div class="section3">
+    <h2>3. VĂN HÓA - CHUYÊN MÔN - NGHỀ NGHIỆP</h2>
+    <kendo-gridlayout
+      class="product-info-content"
+      [gap]="{ rows: 6, cols: 60 }"
+      [cols]="[
+        { width: '270px' },
+        { width: '270px' },
+        { width: '270px' },
+        { width: '270px' }
+      ]"
+    >
+      <kendo-gridlayout-item class="main-content" [col]="1" [colSpan]="1">
+        <kendo-label class="label" text="Trình độ học vấn">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="academicLevelOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [filterable]="true"
+            [(ngModel)]="gridData[0].academicLevel"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Học hàm">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="academicTitleOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [filterable]="true"
+            [(ngModel)]="gridData[0].academicTitle"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Học vị">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="academicDegreeOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [filterable]="true"
+            [(ngModel)]="gridData[0].academicDegree"
+          ></kendo-dropdownlist>
+        </kendo-label>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item [col]="2" [colSpan]="1">
+        <kendo-label class="label" text="Lĩnh vực chuyên gia">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].specializedField"></kendo-textbox>
+        </kendo-label>
+        <kendo-label class="label" text="Nghề nghiệp">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].profession"></kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+    </kendo-gridlayout>
+  </div>
+
+  <div class="section4">
+    <h2>4. THÔNG TIN LIÊN HỆ</h2>
+    <kendo-gridlayout
+      class="product-info-content"
+      [gap]="{ rows: 6, cols: 60 }"
+      [cols]="[
+        { width: '270px' },
+        { width: '270px' },
+        { width: '270px' },
+        { width: '104px' }
+      ]"
+    >
+      <kendo-gridlayout-item class="main-content" [col]="1" [colSpan]="1">
+        <div>
+          <div>
+            <kendo-label class="label" text="Điện thoại di động 1">
+              <span style="color: red">(*)</span>
+            </kendo-label>
+            <input style="margin-left: 20px" type="checkbox" kendoCheckBox [indeterminate]="true" />
+            <kendo-label style="font-weight: 300" class="label" text="Tài khoản zalo"></kendo-label>
+          </div>
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].phoneMobile1"></kendo-textbox>
+        </div>
+        <div>
+          <div>
+            <kendo-label class="label" text="Điện thoại di động 2">
+              <span style="color: red">(*)</span>
+            </kendo-label>
+            <input style="margin-left: 20px" type="checkbox" kendoCheckBox [indeterminate]="true" />
+            <kendo-label style="font-weight: 300" class="label" text="Tài khoản zalo"></kendo-label>
+          </div>
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].phoneMobile2"></kendo-textbox>
+        </div>
+        <kendo-label class="label" text="Email">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].personalEmail"></kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item [col]="2" [colSpan]="1">
+        <kendo-label class="label" text="Người liên hệ khẩn cấp">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].contactPerson"></kendo-textbox>
+        </kendo-label>
+        <div>
+          <div>
+            <kendo-label class="label" text="Số điện thoại liên hệ khẩn cấp"></kendo-label>
+          </div>
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].contactPersonPhone"></kendo-textbox>
+        </div>
+        <kendo-label class="label" text="Nghề nghiệp">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].contactPersonRelationship"></kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item [col]="3" [colSpan]="1">
+        <kendo-label class="label" text="Mạng xã hội 1">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].socialNetwork1"></kendo-textbox>
+        </kendo-label>
+        <kendo-label class="label" text="Mạng xã hội 2">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].socialNetwork2"></kendo-textbox>
+        </kendo-label>
+        <kendo-label class="label" text="Tài khoản chat/VoIP">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].chatVoIP"></kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+
+      <!-- Chỉnh để col 4 ngang hàng với 1,2,3 (bỏ margin-left âm) -->
+      <kendo-gridlayout-item [col]="4" [colSpan]="1">
+        <kendo-dropdownlist class="input-field"></kendo-dropdownlist>
+        <kendo-dropdownlist class="input-field"></kendo-dropdownlist>
+        <kendo-dropdownlist class="input-field"></kendo-dropdownlist>
+      </kendo-gridlayout-item>
+    </kendo-gridlayout>
+  </div>
+
+  <div class="section5">
+    <h2>5. ĐỊA CHỈ CƯ TRÚ</h2>
+    <kendo-gridlayout
+      class="product-info-content"
+      [gap]="{ rows: 6, cols: 60 }"
+      [cols]="[
+        { width: '270px' },
+        { width: '180px' },
+        { width: '270px' },
+        { width: '180px' }
+      ]"
+    >
+      <kendo-gridlayout-item class="main-content" [col]="1" [colSpan]="2">
+        <kendo-label style="margin-left: -240px" class="label" text="Địa chỉ thường trú"></kendo-label>
+        <kendo-textbox class="input-field" [(ngModel)]="gridData[0].permanentAddress"></kendo-textbox>
+      </kendo-gridlayout-item>
+      <kendo-gridlayout-item class="main-content" [col]="3" [colSpan]="2">
+        <kendo-label style="margin-left: -240px" class="label" text="Địa chỉ tạm trú"></kendo-label>
+        <kendo-textbox class="input-field" [(ngModel)]="gridData[0].temporaryAddress"></kendo-textbox>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item class="main-content" [col]="1" [colSpan]="1">
+        <kendo-label class="label" text="Quốc gia">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="countryOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].permanentCountry"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Tỉnh/Thành phố">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="provinceOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].permanentProvince"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Quận/Huyện">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="districtOptionsPermanent"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].permanentDistrict"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Phường/Xã">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="wardOptionsPermanent"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].permanentWard"
+          ></kendo-dropdownlist>
+        </kendo-label>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item class="main-content" [col]="3" [colSpan]="1">
+        <kendo-label class="label" text="Quốc gia">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="countryOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].temporaryCountry"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Tỉnh/Thành phố">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="provinceOptions"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].temporaryProvince"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Quận/Huyện">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="districtOptionsTemporary"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].temporaryDistrict"
+          ></kendo-dropdownlist>
+        </kendo-label>
+        <kendo-label class="label" text="Phường/Xã">
+          <kendo-dropdownlist
+            class="input-field"
+            [data]="wardOptionsTemporary"
+            textField="text"
+            valueField="value"
+            [valuePrimitive]="true"
+            [(ngModel)]="gridData[0].temporaryWard"
+          ></kendo-dropdownlist>
+        </kendo-label>
+      </kendo-gridlayout-item>
+    </kendo-gridlayout>
+  </div>
+
+  <div class="section6">
+    <h2>6. TÀI KHOẢN HỆ THỐNG</h2>
+    <kendo-gridlayout
+      class="product-info-content"
+      [gap]="{ rows: 6, cols: 60 }"
+      [cols]="[{ width: '270px' }, { width: '270px' }]"
+    >
+      <kendo-gridlayout-item class="main-content" [col]="1" [colSpan]="1">
+        <kendo-label class="label" text="Tên đăng nhập">
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].userName"></kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item class="main-content" [col]="2" [colSpan]="1">
+        <kendo-label class="label" text="Tên công ty"></kendo-label>
+        <p>{{ gridData[0].belongsToCompanies }}</p>
+      </kendo-gridlayout-item>
+
+      <kendo-gridlayout-item class="main-content" [col]="1" [colSpan]="1">
+        <kendo-label class="label" text="Mật khẩu">
+          <kendo-textbox
+            class="input-field"
+            placeholder="Password"
+            [(ngModel)]="gridData[0].password"
+          >
+            <ng-template kendoTextBoxSuffixTemplate>
+              <button kendoButton look="clear"></button>
+            </ng-template>
+          </kendo-textbox>
+        </kendo-label>
+      </kendo-gridlayout-item>
+    </kendo-gridlayout>
+  </div>
+</div>

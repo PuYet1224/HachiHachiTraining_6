@@ -1,0 +1,50 @@
+<link rel="stylesheet"href="https://unpkg.com/@progress/kendo-font-icons/dist/index.css"/>
+
+<div class="search-filter-group">
+  <!-- Cột 1: Lọc dữ liệu -->
+  <div class="filter-btn-group clear-btn-group">
+    <div class="label">
+      <span class="k-font-icon k-i-filter"></span> LỌC DỮ LIỆU
+    </div>
+    <button kendobutton
+            class="k-button clear-filter-btn k-button-md k-rounded-md k-button-solid-base k-button-solid"
+            (click)="resetSearch()">
+      <span class="k-button-text">Reset bộ lọc</span>
+    </button>
+  </div>
+
+  <!-- Cột 2: Khu vực tìm kiếm -->
+  <div class="search-container">
+    <div class="filter-btn-group search-btn-group">
+      <div class="label">Tìm kiếm</div>
+      <div class="search-row">
+        <div class="search-btn">
+          <span class="k-font-icon k-i-search"></span>
+          <kendo-textbox type="text"
+                         class="k-textbox k-input k-input-md k-rounded-md k-input-solid"
+                         [(ngModel)]="searchTerm"
+                         (keypress)="searchOnEnter($event)"
+                         placeholder="Tìm theo CCCD/CMND, họ và tên, tên tài khoản">
+          </kendo-textbox>
+        </div>
+        <button kendobutton
+                class="k-button searchBtn k-button-md k-rounded-md k-button-solid-base k-button-solid"
+                (click)="search()">
+          <span class="k-font-icon k-i-search"></span>
+          <span class="k-button-text">TÌM</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cột 3: Dropdown chọn công ty -->
+  <div class="company-dropdown">
+    <label for="companySelect">Chọn Công Ty:</label>
+    <kendo-multiselect
+      id="companySelect"
+      [data]="companyList"
+      [(ngModel)]="selectedCompanies"
+      placeholder="Chọn công ty">
+    </kendo-multiselect>
+  </div>
+</div>

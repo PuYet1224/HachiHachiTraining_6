@@ -1,0 +1,190 @@
+::ng-deep {
+  app-grid-wrapper{
+  .grid-wrapper {
+    height: calc(-232.5px + 100vh);
+    font-family: "Mulish", sans-serif;
+    margin-top: 20px;
+    overflow-y: auto;
+
+    .k-grid-header {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .k-header {
+      font-weight: 700;
+      color: #1a2334;
+      font-size: 13px;
+    }
+
+    .k-table-th {
+      white-space: nowrap;
+    }
+
+    .k-table-td {
+      vertical-align: middle;
+      height: 58px !important;
+
+    }
+  
+    .k-table-md {
+      border-spacing: 0 4px !important;
+      background-color: #f5f5f5;
+    }
+    .k-table-tbody{
+      background-color: #fff !important;
+    }
+    .k-grid-content {
+      background-color: #f5f5f5 !important;
+    }
+  }
+
+  .col-name {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #5a6276;
+    min-height: 58px; 
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 100px;
+      max-height: 40px;
+    }
+
+    .name-ctn {
+      display: flex;
+      flex-direction: column;
+      margin-left: 8px;
+
+      .name {
+        font-weight: 600;
+        color: #5a6276;
+      }
+
+      .cccd {
+        color: #5a6276;
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  .col-gender,
+  .col-birth,
+  .col-email,
+  .col-sdt,
+  .col-account,
+  .col-company {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: relative;
+
+    .k-button {
+      color: #23282c;
+      background-color: #fff;
+      background-image: none;
+      box-shadow: 1px 3px 6px 1px #8f9ba633;
+      height: 32px;
+      border-color: #00000014;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .k-grid {
+    border: none;
+
+    .k-table-td,
+    .k-table-th {
+      border: none;
+      border-spacing: 0 4px !important;
+    }
+  }
+
+  .k-table-row {
+    &:hover {
+      background-color: rgba(123, 169, 142, 0.675) !important;
+    }
+  }
+
+  .k-grid .k-table-row.k-table-alt-row {
+    background-color: #fff;
+  }
+
+  .k-grid-header .k-table-row {
+    background-color: #f5f5f5 !important;
+  }
+
+  td[aria-colindex="8"] {
+    box-shadow: -3px 0 3px #8f9ba633;
+    position: sticky;
+    right: 0;
+    background: white;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .menu-item {
+    display: flex;
+    gap: 8px; 
+    font-family: "Mulish", sans-serif;
+    font-size: 14px; 
+    font-weight: 600; 
+    color: #fff;
+    border: none;
+    min-width: 147px; 
+    cursor: pointer;
+    text-align: left;
+    box-shadow: 0 5px 6px #5a62764d;
+    background-color: #bdc2d2;
+    
+    &:hover {
+      background-color: #5c6873;
+    }
+  
+    kendo-icon {
+      font-size: 16px; 
+      color: #ffffff;
+    }
+  }
+  .popup-menu{
+    right: 41px;
+    position: absolute;
+    top: 22px;
+    padding-bottom: 1% !important; 
+  }
+  .k-grid .k-grid-header .k-table {
+    margin-bottom: -1px;
+  }
+  .k-grid .k-table-th:first-child, .k-grid td:first-child, .k-grid .k-table-td:first-child {
+    border-inline-start-width: 0;
+    padding: 0 2%;
+  }
+  ::ng-deep {
+    .k-grid-header .k-table-th:first-child {
+      padding-bottom: 8px !important;
+    }
+  }
+  ::ng-deep .k-grid-header .k-header .k-column-title {
+    cursor: pointer !important;
+  }
+  ::ng-deep .custom-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer !important;
+  }
+  
+}
+}

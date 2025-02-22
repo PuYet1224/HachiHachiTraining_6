@@ -1,0 +1,249 @@
+::ng-deep {
+  .menu-container {
+    height: 100vh;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    font-family: "Mulish", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    background: #464e61;
+    letter-spacing: 1px;
+    color: #fff;
+
+    .menu-header {
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 54px;
+
+      img {
+        max-height: 65px;
+        position: relative;
+        top: -3px;
+        left: -20px;
+      }
+    }
+  }
+
+  .k-panelbar,
+  .k-panelbar * {
+    border: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+    font-weight: 700;
+  }
+
+  .k-panelbar {
+    width: 100%;
+    background-color: #464e61 !important;
+    color: #73818f;
+    padding: 0;
+
+    .parent-item {
+      > .k-link {
+        text-transform: uppercase;
+        height: 49px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        background-color: #464e61;
+        color: #73818f;
+        cursor: pointer;
+        position: relative;
+
+        .k-icon,
+        .k-panelbar-item-icon,
+        .k-svg-icon {
+          fill: #5cb800;
+        }
+      }
+
+      &:hover > .k-link {
+        background-color: transparent;
+        color: #5cb800;
+
+        .k-icon,
+        .k-panelbar-item-icon,
+        .k-svg-icon {
+          fill: #5cb800;
+        }
+      }
+
+      &.k-expanded > .k-link {
+        background-color: #464e61 !important;
+        color: #73818f !important;
+
+        .k-icon,
+        .k-panelbar-item-icon,
+        .k-svg-icon {
+          fill: #5cb800;
+        }
+      }
+
+      &.has-active-child > .k-link {
+        background-color: transparent;
+        color: #5cb800;
+
+        .k-icon,
+        .k-panelbar-item-icon,
+        .k-svg-icon {
+          fill: #5cb800;
+        }
+      }
+    }
+
+    .k-panelbar-content {
+      background-color: #3b4252;
+
+      > .k-panelbar-item-text {
+        > .k-link {
+          height: 49px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 10px;
+          background-color: #3b4252;
+          cursor: pointer;
+          position: relative;
+
+          .k-icon,
+          .k-panelbar-item-icon,
+          .k-svg-icon {
+            fill: #5cb800;
+          }
+
+          &:hover {
+            color: #fff;
+
+            .k-icon,
+            .k-panelbar-item-icon,
+            .k-svg-icon {
+              fill: #fff;
+            }
+          }
+        }
+
+        &.k-selected > .k-link,
+        &.k-expanded > .k-link {
+          color: #5cb800 !important;
+          position: relative;
+
+          .k-icon,
+          .k-panelbar-item-icon,
+          .k-svg-icon {
+            fill: #5cb800;
+          }
+        }
+
+        &.k-selected {
+          &.parent-item {
+            background-color: transparent;
+            color: #5cb800;
+
+            .k-icon,
+            .k-panelbar-item-icon,
+            .k-svg-icon {
+              fill: #5cb800;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .k-panelbar > .k-panelbar-header > .k-link {
+    background-color: transparent !important;
+    color: #73818f !important;
+
+    .k-icon,
+    .k-panelbar-item-icon {
+      color: #73818f !important;
+    }
+
+    &:hover {
+      background-color: transparent !important;
+      color: #5cb800 !important;
+
+      .k-icon,
+      .k-panelbar-item-icon {
+        color: #5cb800 !important;
+      }
+    }
+  }
+
+  .k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link.k-selected {
+    color: #fff;
+    background-color: #3b4252 !important;
+  }
+
+  .k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link:hover {
+    background-color: transparent;
+    cursor: pointer;
+    color: #fff !important;
+  }
+
+  .k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link {
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
+
+::ng-deep {
+  .k-panelbar {
+    .parent-item > .k-link {
+      position: relative;
+      background-color: #464e61;
+      color: #73818f;
+      transition: all 0.3s ease;
+    }
+
+    .parent-item.has-active-child > .k-link {
+      background-color: #3b4252 !important;
+      color: #5cb800 !important;
+      font-weight: bold;
+    }
+
+    .parent-item.has-active-child > .k-link::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 5px;
+      background-color: #5cb800;
+    }
+
+    .parent-item.has-active-child .k-icon,
+    .parent-item.has-active-child .k-panelbar-item-icon,
+    .parent-item.has-active-child .k-svg-icon {
+      color: #5cb800 !important;
+      fill: #5cb800 !important;
+    }
+
+    .k-panelbar-item.k-selected > .k-link {
+      position: relative;
+      background-color: #3b4252 !important;
+      color: #fff !important;
+      font-weight: bold;
+    }
+
+    .k-panelbar-item.k-selected > .k-link::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 5px;
+      background-color: #fff;
+    }
+  }
+}
+
+
+
+
+
+  
