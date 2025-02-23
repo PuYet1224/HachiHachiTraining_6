@@ -2,10 +2,15 @@
   <app-sidebar></app-sidebar>
   <div class="content">
     <app-headerwide></app-headerwide>
-    <app-header1></app-header1>
-    <app-header2></app-header2>
-    <div class="main-content">
-      <router-outlet></router-outlet>
-    </div>
+    <ng-container *ngIf="isPersonalInfoSelected; else blankContent">
+      <app-header1></app-header1>
+      <app-header2></app-header2>
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
+    </ng-container>
+    <ng-template #blankContent>
+      <div class="blank-content"></div>
+    </ng-template>
   </div>
 </div>
