@@ -47,7 +47,6 @@ export class EditWrapperComponent implements OnInit {
     const day = i + 1;
     return { text: day.toString(), value: day };
   });
-
   academicLevelOptions = [
     { text: 'Trung học', value: 'High School' },
     { text: 'Cao đẳng', value: 'College' },
@@ -66,17 +65,6 @@ export class EditWrapperComponent implements OnInit {
     { text: 'MSc', value: 'MSc' },
     { text: 'PhD', value: 'PhD' }
   ];
-  specializedFieldOptions = [
-    { text: 'CNTT', value: 'IT' },
-    { text: 'Kinh doanh', value: 'Business' },
-    { text: 'Giáo dục', value: 'Education' }
-  ];
-  professionOptions = [
-    { text: 'Lập trình viên', value: 'Software Developer' },
-    { text: 'Quản lý dự án', value: 'Project Manager' },
-    { text: 'Giáo viên', value: 'Teacher' },
-    { text: 'Thực tập sinh', value: 'Intern' }
-  ];
   countryOptions = [
     { text: 'Việt Nam', value: 'Vietnam' },
     { text: 'Mỹ', value: 'USA' },
@@ -87,7 +75,6 @@ export class EditWrapperComponent implements OnInit {
     { text: 'Hồ Chí Minh', value: 'Ho Chi Minh' },
     { text: 'Đà Nẵng', value: 'Da Nang' }
   ];
-
   districtOptionsPermanent = [
     { text: 'Cầu Giấy', value: 'Cau Giay' },
     { text: 'Ba Đình', value: 'Ba Dinh' },
@@ -98,7 +85,6 @@ export class EditWrapperComponent implements OnInit {
     { text: 'Kim Mã', value: 'Kim Ma' },
     { text: 'Phương Liệt', value: 'Phuong Liet' }
   ];
-
   districtOptionsTemporary = [
     { text: 'Quận 1', value: 'District 1' },
     { text: 'Hải Châu', value: 'Hai Chau' },
@@ -115,21 +101,32 @@ export class EditWrapperComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const empId = params['id'];
-      if (empId) {
+
+      if (empId === 'new') {
+        const newEmp: EmployeeDto = {
+          lastName: '',
+          middleName: '',
+          firstName: ''
+        };
+        this.gridData = [newEmp];
+      } else if (empId) {
         const foundEmp = EMPLOYEES_DATA.find(emp => emp.nationalId === empId);
         if (foundEmp) {
           this.gridData = [foundEmp];
         }
       }
+
       if (!this.gridData.length) {
         const state = this.router.getCurrentNavigation()?.extras.state;
         if (state && state['data']) {
           this.gridData = [state['data']];
         }
       }
+
       if (!this.gridData.length) {
         this.gridData = [EMPLOYEES_DATA[0]];
       }
+
       const emp = this.gridData[0];
       if (emp && emp.dateOfBirth && typeof emp.dateOfBirth === 'string') {
         const [yyyy, mm, dd] = emp.dateOfBirth.split('-');
@@ -155,6 +152,26 @@ export class EditWrapperComponent implements OnInit {
     });
   }
 
+  get isNameEntered(): boolean {
+    const emp = this.gridData[0];
+    if (!emp) return false;
+  
+    return (
+      (
+        !!emp.lastName && emp.lastName.trim().length > 0
+      )
+      ||
+      (
+        !!emp.middleName && emp.middleName.trim().length > 0
+      )
+      ||
+      (
+        !!emp.firstName && emp.firstName.trim().length > 0
+      )
+    );
+  }
+  
+
   private parseDate(dateStr: string): Date {
     const [yyyy, mm, dd] = dateStr.split('-');
     return new Date(+yyyy, +mm - 1, +dd);
@@ -168,6 +185,7 @@ export class EditWrapperComponent implements OnInit {
   }
 
   onMonthChange(emp: EmployeeDto) {}
+
   onSave() {
     const emp = this.gridData[0];
     if (emp.birthYear && emp.birthMonth && emp.birthDay) {

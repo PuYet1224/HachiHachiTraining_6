@@ -2,15 +2,19 @@
   <app-sidebar></app-sidebar>
   <div class="content">
     <app-headerwide></app-headerwide>
-    <ng-container *ngIf="isPersonalInfoSelected; else blankContent">
-      <app-header1></app-header1>
-      <app-header2></app-header2>
-      <div class="main-content">
-        <router-outlet></router-outlet>
-      </div>
-    </ng-container>
-    <ng-template #blankContent>
-      <div class="blank-content"></div>
-    </ng-template>
+    <div *ngIf="currentMode === 'CẤU HÌNH'">
+      <ng-container *ngIf="isPersonalInfoSelected; else blankContent">
+        <app-header1></app-header1>
+
+        <app-header2 *ngIf="!isEditPage"></app-header2>
+
+        <div class="main-content">
+          <router-outlet></router-outlet>
+        </div>
+      </ng-container>
+      <ng-template #blankContent>
+        <div class="blank-content"></div>
+      </ng-template>
+    </div>
   </div>
 </div>

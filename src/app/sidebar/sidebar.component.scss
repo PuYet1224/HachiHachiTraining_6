@@ -15,14 +15,29 @@
       background-color: #fff;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: center; 
       height: 54px;
+      position: relative;
 
       img {
         max-height: 65px;
         position: relative;
-        top: -3px;
-        left: -20px;
+        top: -6px;
+        left: -23px;
+      }
+
+      .menu-toggle-btn {
+        border: none;
+        background-color: #fff;
+        cursor: pointer;
+        position: absolute;
+        right: 10px; 
+        top: 50%;
+        transform: translateY(-50%);
+
+        &.rotate kendo-icon {
+          transform: rotate(180deg);
+        }
       }
     }
   }
@@ -157,7 +172,6 @@
   .k-panelbar > .k-panelbar-header > .k-link {
     background-color: transparent !important;
     color: #73818f !important;
-
     .k-icon,
     .k-panelbar-item-icon {
       color: #73818f !important;
@@ -166,7 +180,6 @@
     &:hover {
       background-color: transparent !important;
       color: #5cb800 !important;
-
       .k-icon,
       .k-panelbar-item-icon {
         color: #5cb800 !important;
@@ -189,9 +202,7 @@
     background-color: transparent;
     cursor: pointer;
   }
-}
 
-::ng-deep {
   .k-panelbar {
     .parent-item > .k-link {
       position: relative;
@@ -242,9 +253,3 @@
   }
 }
 
-
-
-
-
-
-  

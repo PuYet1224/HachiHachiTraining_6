@@ -8,88 +8,89 @@
   border-bottom: 1px solid #c8ced3;
   border-left: 1px solid #5c6873;
   color: #73818f;
+  padding: 0 10px;
 
   .k-toolbar-toggle-button {
     border: none;
-    background-color: transparent;
+    background-color: #fff;
     font-size: 13px;
-    padding: 0 17px;
+    padding: 10px 17px;
     font-weight: 700;
     position: relative;
     display: flex;
     align-items: center;
-    margin-top: -10px;
+    justify-content: center;
     cursor: pointer;
+    color: #73818f;
 
     &:hover {
       color: #1a6634;
     }
+
     &.k-selected {
+      background-color: #fff;
       color: #1a6634;
+      font-weight: 700;
+      position: relative;
+
       &::after {
         content: "";
-        color: #1a6634 !important;
-        height: 3px;
-        border-radius: 999px;
-        width: 65%;
-        left: 50%;
-        top: 34px;
-        transform: translateX(-50%);
+        height: 3px; 
+        width: 70%;  
         position: absolute;
-        background-color: #1a6634; 
-        z-index: 1000;
-    }
+        left: 50%;
+        top: 42px;
+        transform: translateX(-50%);
+        border-radius: 2px; 
+        display: block;
+        opacity: 1 !important;
+        background-color: #1a6634 !important;
+        box-shadow: 0px 0px 5px rgba(26, 102, 52, 0.7); 
+      }
     }
   }
 
   .k-toolbar-separator {
-    height: 60%;
+    height: 45%;
     width: 1px;
     border-radius: 3px;
-    margin-top: -10px;
+    background-color: #ccc;
   }
-}
 
-.k-icon-button {
-  background-color: #fff;
-  border: none;
-  width: 54px;
-  height: 54px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  margin-top: -10px;
-  cursor: pointer;
+  .toolbar-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: auto;
+  }
 
-  .k-button-icon {
+  .k-icon-button {
+    background-color: #fff;
+    border: none;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+    cursor: pointer;
+
+    .k-button-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .k-image {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+    }
   }
-  .k-image {
-    width: 16px;
-    height: 16px;
-    object-fit: contain;
-  }
 }
 
-.toolbar-icons {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  margin-left: auto;
-}
-
-.k.button.k-focus {
-  background-color: transparent;
-}
-
-.k-button {
-  color: #73818f;
-  transition: none;
-}
-
-.k-button-solid-base:hover, .k-button-solid-base.k-hover {
-  background-color: transparent;
+.k-button-clear-base:focus::after,
+.k-button-clear-base.k-focus::after,
+.k-button-clear-base:active::after {
+  background-color: #fff !important;
 }

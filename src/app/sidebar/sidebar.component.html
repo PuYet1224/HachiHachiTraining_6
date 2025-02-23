@@ -1,110 +1,106 @@
 <div class="menu-container">
   <div class="menu-header">
     <img src="../../assets/images/systems.jpeg" alt="system" />
+    <button class="menu-toggle-btn" (click)="toggleMenu()">
+      <kendo-icon name="chevron-down"></kendo-icon>
+    </button>
   </div>
-  <kendo-panelbar [expandMode]="expandMode" class="custom-panelbar">
 
-    <kendo-panelbar-item 
-      title="Quản lý sản phẩm" 
-      class="parent-item" 
-      [expanded]="isParentActive('Quản lý sản phẩm')"
-      [ngClass]="{'has-active-child': isParentActive('Quản lý sản phẩm')}"
-      (click)="onParentClick('Quản lý sản phẩm')">
-      
-      <kendo-panelbar-item 
-        title="Đề nghị Hamper" 
-        [ngClass]="{'k-selected': isChildSelected('Quản lý sản phẩm', 'Đề nghị Hamper')}"
-        (click)="onChildClick($event, 'Quản lý sản phẩm', 'Đề nghị Hamper')">
+  <div *ngIf="isMenuOpen && currentMode==='CẤU HÌNH'">
+    <kendo-panelbar [expandMode]="expandMode" class="custom-panelbar">
+      <kendo-panelbar-item
+        title="Quản lý sản phẩm"
+        class="parent-item"
+        [expanded]="isParentActive('Quản lý sản phẩm')"
+        [ngClass]="{'has-active-child': isParentActive('Quản lý sản phẩm')}"
+        (click)="onParentClick($event, 'Quản lý sản phẩm')"
+      >
+        <kendo-panelbar-item
+          title="Đề nghị Hamper"
+          [ngClass]="{'k-selected': isChildSelected('Quản lý sản phẩm', 'Đề nghị Hamper')}"
+          (click)="onChildClick($event, 'Quản lý sản phẩm', 'Đề nghị Hamper')"
+        ></kendo-panelbar-item>
+        <kendo-panelbar-item
+          title="Danh sách sản phẩm"
+          [ngClass]="{'k-selected': isChildSelected('Quản lý sản phẩm', 'Danh sách sản phẩm')}"
+          (click)="onChildClick($event, 'Quản lý sản phẩm', 'Danh sách sản phẩm')"
+        ></kendo-panelbar-item>
       </kendo-panelbar-item>
 
-      <kendo-panelbar-item 
-        title="Danh sách sản phẩm" 
-        [ngClass]="{'k-selected': isChildSelected('Quản lý sản phẩm', 'Danh sách sản phẩm')}"
-        (click)="onChildClick($event, 'Quản lý sản phẩm', 'Danh sách sản phẩm')">
+      <kendo-panelbar-item
+        title="Sản phẩm"
+        class="parent-item"
+        [expanded]="isParentActive('Sản phẩm')"
+        [ngClass]="{'has-active-child': isParentActive('Sản phẩm')}"
+        (click)="onParentClick($event, 'Sản phẩm')"
+      >
+        <kendo-panelbar-item
+          title="Danh sách sản phẩm"
+          [ngClass]="{'k-selected': isChildSelected('Sản phẩm', 'Danh sách sản phẩm')}"
+          (click)="onChildClick($event, 'Sản phẩm', 'Danh sách sản phẩm')"
+        ></kendo-panelbar-item>
       </kendo-panelbar-item>
 
-    </kendo-panelbar-item>
-
-    <kendo-panelbar-item 
-      title="Sản phẩm" 
-      class="parent-item" 
-      [expanded]="isParentActive('Sản phẩm')"
-      [ngClass]="{'has-active-child': isParentActive('Sản phẩm')}"
-      (click)="onParentClick('Sản phẩm')">
-      
-      <kendo-panelbar-item 
-        title="Danh sách sản phẩm" 
-        [ngClass]="{'k-selected': isChildSelected('Sản phẩm', 'Danh sách sản phẩm')}"
-        (click)="onChildClick($event, 'Sản phẩm', 'Danh sách sản phẩm')">
+      <kendo-panelbar-item
+        title="Hàng hóa"
+        class="parent-item"
+        [expanded]="isParentActive('Hàng hóa')"
+        [ngClass]="{'has-active-child': isParentActive('Hàng hóa')}"
+        (click)="onParentClick($event, 'Hàng hóa')"
+      >
+        <kendo-panelbar-item
+          title="Tình trạng hàng hóa"
+          [ngClass]="{'k-selected': isChildSelected('Hàng hóa', 'Tình trạng hàng hóa')}"
+          (click)="onChildClick($event, 'Hàng hóa', 'Tình trạng hàng hóa')"
+        ></kendo-panelbar-item>
       </kendo-panelbar-item>
 
-    </kendo-panelbar-item>
-
-    <kendo-panelbar-item 
-      title="Hàng hóa" 
-      class="parent-item" 
-      [expanded]="isParentActive('Hàng hóa')"
-      [ngClass]="{'has-active-child': isParentActive('Hàng hóa')}"
-      (click)="onParentClick('Hàng hóa')">
-      
-      <kendo-panelbar-item 
-        title="Tình trạng hàng hóa" 
-        [ngClass]="{'k-selected': isChildSelected('Hàng hóa', 'Tình trạng hàng hóa')}"
-        (click)="onChildClick($event, 'Hàng hóa', 'Tình trạng hàng hóa')">
+      <kendo-panelbar-item
+        title="Hồ sơ nhân sự"
+        class="parent-item"
+        [expanded]="isParentActive('Hồ sơ nhân sự')"
+        [ngClass]="{'has-active-child': isParentActive('Hồ sơ nhân sự')}"
+        (click)="onParentClick($event, 'Hồ sơ nhân sự')"
+      >
+        <kendo-panelbar-item
+          title="Thông tin cá nhân"
+          [ngClass]="{'k-selected': isChildSelected('Hồ sơ nhân sự', 'Thông tin cá nhân')}"
+          (click)="onChildClick($event, 'Hồ sơ nhân sự', 'Thông tin cá nhân')"
+        ></kendo-panelbar-item>
       </kendo-panelbar-item>
 
-    </kendo-panelbar-item>
-
-    <kendo-panelbar-item 
-      title="Hồ sơ nhân sự" 
-      class="parent-item" 
-      [expanded]="isParentActive('Hồ sơ nhân sự')"
-      [ngClass]="{'has-active-child': isParentActive('Hồ sơ nhân sự')}"
-      (click)="onParentClick('Hồ sơ nhân sự')">
-      
-      <kendo-panelbar-item 
-        title="Thông tin cá nhân" 
-        [ngClass]="{'k-selected': isChildSelected('Hồ sơ nhân sự', 'Thông tin cá nhân')}"
-        (click)="onChildClick($event, 'Hồ sơ nhân sự', 'Thông tin cá nhân')">
+      <kendo-panelbar-item
+        title="Quản lý đối tác"
+        class="parent-item"
+        [expanded]="isParentActive('Quản lý đối tác')"
+        [ngClass]="{'has-active-child': isParentActive('Quản lý đối tác')}"
+        (click)="onParentClick($event, 'Quản lý đối tác')"
+      >
+        <kendo-panelbar-item
+          title="Danh sách đối tác"
+          [ngClass]="{'k-selected': isChildSelected('Quản lý đối tác', 'Danh sách đối tác')}"
+          (click)="onChildClick($event, 'Quản lý đối tác', 'Danh sách đối tác')"
+        ></kendo-panelbar-item>
       </kendo-panelbar-item>
 
-    </kendo-panelbar-item>
-
-    <kendo-panelbar-item 
-      title="Quản lý đối tác" 
-      class="parent-item" 
-      [expanded]="isParentActive('Quản lý đối tác')"
-      [ngClass]="{'has-active-child': isParentActive('Quản lý đối tác')}"
-      (click)="onParentClick('Quản lý đối tác')">
-      
-      <kendo-panelbar-item 
-        title="Danh sách đối tác" 
-        [ngClass]="{'k-selected': isChildSelected('Quản lý đối tác', 'Danh sách đối tác')}"
-        (click)="onChildClick($event, 'Quản lý đối tác', 'Danh sách đối tác')">
+      <kendo-panelbar-item
+        title="Quản trị hệ thống"
+        class="parent-item"
+        [expanded]="isParentActive('Quản trị hệ thống')"
+        [ngClass]="{'has-active-child': isParentActive('Quản trị hệ thống')}"
+        (click)="onParentClick($event, 'Quản trị hệ thống')"
+      >
+        <kendo-panelbar-item
+          title="Vai trò"
+          [ngClass]="{'k-selected': isChildSelected('Quản trị hệ thống', 'Vai trò')}"
+          (click)="onChildClick($event, 'Quản trị hệ thống', 'Vai trò')"
+        ></kendo-panelbar-item>
+        <kendo-panelbar-item
+          title="Phân quyền"
+          [ngClass]="{'k-selected': isChildSelected('Quản trị hệ thống', 'Phân quyền')}"
+          (click)="onChildClick($event, 'Quản trị hệ thống', 'Phân quyền')"
+        ></kendo-panelbar-item>
       </kendo-panelbar-item>
-
-    </kendo-panelbar-item>
-
-    <kendo-panelbar-item 
-      title="Quản trị hệ thống" 
-      class="parent-item" 
-      [expanded]="isParentActive('Quản trị hệ thống')"
-      [ngClass]="{'has-active-child': isParentActive('Quản trị hệ thống')}"
-      (click)="onParentClick('Quản trị hệ thống')">
-      
-      <kendo-panelbar-item 
-        title="Vai trò" 
-        [ngClass]="{'k-selected': isChildSelected('Quản trị hệ thống', 'Vai trò')}"
-        (click)="onChildClick($event, 'Quản trị hệ thống', 'Vai trò')">
-      </kendo-panelbar-item>
-
-      <kendo-panelbar-item 
-        title="Phân quyền" 
-        [ngClass]="{'k-selected': isChildSelected('Quản trị hệ thống', 'Phân quyền')}"
-        (click)="onChildClick($event, 'Quản trị hệ thống', 'Phân quyền')">
-      </kendo-panelbar-item>
-
-    </kendo-panelbar-item>
-
-  </kendo-panelbar>
+    </kendo-panelbar>
+  </div>
 </div>

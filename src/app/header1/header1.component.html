@@ -1,6 +1,16 @@
-<kendo-breadcrumb 
-  [items]="[
-    { text: 'HỒ SƠ NHÂN SỰ' },
-    { text: 'THÔNG TIN CÁ NHÂN' },
-  ]">
+<kendo-breadcrumb
+  [items]="isEditPage
+    ? [
+        { text: 'HỒ SƠ NHÂN SỰ' },
+        { text: 'THÔNG TIN CÁ NHÂN' },
+        { text: 'Chi tiết thông tin cá nhân' }
+      ]
+    : [
+        { text: 'HỒ SƠ NHÂN SỰ' },
+        { text: 'THÔNG TIN CÁ NHÂN' }
+      ]">
 </kendo-breadcrumb>
+
+<button (click)="navigateToAddPage()" class="btn-add">
+  Thêm mới
+</button>

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MenuStateService } from './services/menu-state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,19 +9,35 @@ import { MenuStateService } from './services/menu-state.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'HachiHachiTraining_5';
+  title: string = 'HachiHachiTraining_5';
   isPersonalInfoSelected: boolean = false;
-  private sub!: Subscription; 
+  currentMode: string = 'CẤU HÌNH';
+  private subs = new Subscription();
 
-  constructor(private menuStateService: MenuStateService) {}
+  constructor(
+    private menuStateService: MenuStateService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.sub = this.menuStateService.selectedMenu$.subscribe(selectedMenu => {
-      this.isPersonalInfoSelected = selectedMenu === 'Hồ sơ nhân sự > Thông tin cá nhân';
-    });
+    this.subs.add(
+      this.menuStateService.selectedMenu$.subscribe(selectedMenu => {
+        this.isPersonalInfoSelected = (selectedMenu === 'Hồ sơ nhân sự > Thông tin cá nhân');
+      })
+    );
+
+    this.subs.add(
+      this.menuStateService.mode$.subscribe(mode => {
+        this.currentMode = mode;
+      })
+    );
+  }
+
+  get isEditPage(): boolean {
+    return this.router.url.includes('/edit-page');
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.subs.unsubscribe();
   }
 }

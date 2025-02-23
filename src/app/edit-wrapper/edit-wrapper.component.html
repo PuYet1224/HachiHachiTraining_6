@@ -16,17 +16,21 @@
       </kendo-gridlayout-item>
 
       <kendo-gridlayout-item [col]="2" [colSpan]="1">
+        <!-- Họ: Không disable -->
         <kendo-label class="label" text="Họ">
-          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].lastName"></kendo-textbox>
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].lastName" [disabled]="false"></kendo-textbox>
         </kendo-label>
+        <!-- Tên đệm: Không disable -->
         <kendo-label class="label" text="Tên đệm">
-          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].middleName"></kendo-textbox>
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].middleName" [disabled]="false"></kendo-textbox>
         </kendo-label>
+        <!-- Tên: Không disable -->
         <kendo-label class="label" text="Tên">
-          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].firstName"></kendo-textbox>
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].firstName" [disabled]="false"></kendo-textbox>
         </kendo-label>
+        <!-- Còn lại disable nếu !isNameEntered -->
         <kendo-label class="label" text="Tên viết tắt">
-          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].shortName"></kendo-textbox>
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].shortName" [disabled]="!isNameEntered"></kendo-textbox>
         </kendo-label>
       </kendo-gridlayout-item>
 
@@ -39,6 +43,7 @@
             valueField="value"
             [valuePrimitive]="true"
             [(ngModel)]="gridData[0].gender"
+            [disabled]="!isNameEntered"
           ></kendo-dropdownlist>
         </kendo-label>
         <kendo-label class="label" text="Quốc tịch">
@@ -50,6 +55,7 @@
             [valuePrimitive]="true"
             [filterable]="true"
             [(ngModel)]="gridData[0].nationality"
+            [disabled]="!isNameEntered"
           ></kendo-dropdownlist>
         </kendo-label>
         <kendo-label class="label" text="Dân tộc">
@@ -60,6 +66,7 @@
             valueField="value"
             [valuePrimitive]="true"
             [(ngModel)]="gridData[0].ethnicity"
+            [disabled]="!isNameEntered"
           ></kendo-dropdownlist>
         </kendo-label>
         <kendo-label class="label" text="Tôn giáo">
@@ -70,6 +77,7 @@
             valueField="value"
             [valuePrimitive]="true"
             [(ngModel)]="gridData[0].religion"
+            [disabled]="!isNameEntered"
           ></kendo-dropdownlist>
         </kendo-label>
       </kendo-gridlayout-item>
@@ -83,10 +91,12 @@
           valueField="value"
           [valuePrimitive]="true"
           [(ngModel)]="gridData[0].maritalStatus"
-        ></kendo-dropdownlist>
+          [disabled]="!isNameEntered"
+        >
+        </kendo-dropdownlist>
         <div></div>
         <kendo-label class="label" text="Nguyên quán">
-          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].placeOfOrigin"></kendo-textbox>
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].placeOfOrigin" [disabled]="!isNameEntered"></kendo-textbox>
         </kendo-label>
         <div></div>
         <kendo-label class="label" text="Ngày sinh (năm, tháng, ngày)">
@@ -98,6 +108,7 @@
               [(ngModel)]="gridData[0].birthDay"
               (valueChange)="onDayChange(gridData[0])"
               [defaultItem]="'Chọn ngày'"
+              [disabled]="!isNameEntered"
             ></kendo-dropdownlist>
             <kendo-dropdownlist
               class="input-field"
@@ -106,6 +117,7 @@
               [(ngModel)]="gridData[0].birthMonth"
               (valueChange)="onMonthChange(gridData[0])"
               [defaultItem]="'Chọn tháng'"
+              [disabled]="!isNameEntered"
             ></kendo-dropdownlist>
             <kendo-dropdownlist
               class="input-field"
@@ -113,17 +125,19 @@
               [valuePrimitive]="true"
               [(ngModel)]="gridData[0].birthYear"
               [defaultItem]="'Chọn năm'"
+              [disabled]="!isNameEntered"
             ></kendo-dropdownlist>
           </div>
         </kendo-label>
         <kendo-label class="label" text="Nơi sinh">
-          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].placeOfBirth"></kendo-textbox>
+          <kendo-textbox class="input-field" [(ngModel)]="gridData[0].placeOfBirth" [disabled]="!isNameEntered"></kendo-textbox>
         </kendo-label>
       </kendo-gridlayout-item>
     </kendo-gridlayout>
   </div>
 
-  <div class="section2">
+  <!-- MỤC 2~6 chỉ hiển thị khi đã nhập ít nhất 1 trong 3 ô (Họ, Tên đệm, Tên) -->
+  <div class="section2" *ngIf="isNameEntered">
     <h2>2. THÔNG TIN CHỨNG THỰC VÀ THUẾ</h2>
     <kendo-gridlayout
       class="product-info-content"
@@ -204,7 +218,7 @@
     </kendo-gridlayout>
   </div>
 
-  <div class="section3">
+  <div class="section3" *ngIf="isNameEntered">
     <h2>3. VĂN HÓA - CHUYÊN MÔN - NGHỀ NGHIỆP</h2>
     <kendo-gridlayout
       class="product-info-content"
@@ -263,7 +277,7 @@
     </kendo-gridlayout>
   </div>
 
-  <div class="section4">
+  <div class="section4" *ngIf="isNameEntered">
     <h2>4. THÔNG TIN LIÊN HỆ</h2>
     <kendo-gridlayout
       class="product-info-content"
@@ -328,7 +342,6 @@
         </kendo-label>
       </kendo-gridlayout-item>
 
-      <!-- Chỉnh để col 4 ngang hàng với 1,2,3 (bỏ margin-left âm) -->
       <kendo-gridlayout-item [col]="4" [colSpan]="1">
         <kendo-dropdownlist class="input-field"></kendo-dropdownlist>
         <kendo-dropdownlist class="input-field"></kendo-dropdownlist>
@@ -337,7 +350,7 @@
     </kendo-gridlayout>
   </div>
 
-  <div class="section5">
+  <div class="section5" *ngIf="isNameEntered">
     <h2>5. ĐỊA CHỈ CƯ TRÚ</h2>
     <kendo-gridlayout
       class="product-info-content"
@@ -446,7 +459,7 @@
     </kendo-gridlayout>
   </div>
 
-  <div class="section6">
+  <div class="section6" *ngIf="isNameEntered">
     <h2>6. TÀI KHOẢN HỆ THỐNG</h2>
     <kendo-gridlayout
       class="product-info-content"
