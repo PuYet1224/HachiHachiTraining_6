@@ -30,3 +30,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 =======
 >>>>>>> 3bdd3b5 (initial commit)
 # HachiHachiTraining_5
+# HachiHachiTraining_6
