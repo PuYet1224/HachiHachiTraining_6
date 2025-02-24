@@ -1,16 +1,69 @@
-<kendo-breadcrumb
-  [items]="isEditPage
-    ? [
-        { text: 'HỒ SƠ NHÂN SỰ' },
-        { text: 'THÔNG TIN CÁ NHÂN' },
-        { text: 'Chi tiết thông tin cá nhân' }
-      ]
-    : [
-        { text: 'HỒ SƠ NHÂN SỰ' },
-        { text: 'THÔNG TIN CÁ NHÂN' }
-      ]">
-</kendo-breadcrumb>
+<div class="header new-header">
+  <!-- Bên trái: 4 nút trạng thái -->
+  <div class="leftGroup">
+    <button
+      kendoButton
+      [togglable]="true"
+      [selected]="isSelected('Đang soạn thảo')"
+      (click)="toggle('Đang soạn thảo')"
+      class="checkbox-btn"
+    >
+      Đang soạn thảo
+      <input type="checkbox" class="k-checkbox" disabled [checked]="isSelected('Đang soạn thảo')" />
+    </button>
 
-<button (click)="navigateToAddPage()" class="btn-add">
-  Thêm mới
-</button>
+    <button
+      kendoButton
+      [togglable]="true"
+      [selected]="isSelected('Gửi duyệt')"
+      (click)="toggle('Gửi duyệt')"
+      class="checkbox-btn"
+    >
+      Gửi duyệt
+      <input type="checkbox" class="k-checkbox" disabled [checked]="isSelected('Gửi duyệt')" />
+    </button>
+
+    <button
+      kendoButton
+      [togglable]="true"
+      [selected]="isSelected('Đã duyệt')"
+      (click)="toggle('Đã duyệt')"
+      class="checkbox-btn"
+    >
+      Đã duyệt
+      <input type="checkbox" class="k-checkbox" disabled [checked]="isSelected('Đã duyệt')" />
+    </button>
+
+    <button
+      kendoButton
+      [togglable]="true"
+      [selected]="isSelected('Ngừng áp dụng')"
+      (click)="toggle('Ngừng áp dụng')"
+      class="checkbox-btn"
+    >
+      Ngừng áp dụng
+      <input type="checkbox" class="k-checkbox" disabled [checked]="isSelected('Ngừng áp dụng')" />
+    </button>
+  </div>
+
+  <!-- Bên phải: 3 nút Export, Template, Thêm Mới -->
+  <div class="rightGroup">
+    <!-- Nút chỉ có icon export -->
+    <button kendoButton icon="export" class="icon-only-btn"></button>
+
+    <!-- Nút icon + text Template -->
+    <button kendoButton icon="import" class="icon-text-btn">
+      Template
+    </button>
+
+    <!-- Nút màu xanh + icon + text THÊM MỚI -->
+    <button
+      kendoButton
+      icon="plus"
+      class="btn-add-new"
+      (click)="onAddNew()"
+    >
+      THÊM MỚI
+    </button>
+  </div>
+</div>

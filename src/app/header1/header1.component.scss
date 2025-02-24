@@ -1,49 +1,146 @@
-::ng-deep .k-breadcrumb-container {
-  background-color: #f5f5f5;
-  font-family: "Mulish", sans-serif;
-  font-size: 13px;
-}
-
-::ng-deep .k-breadcrumb-root-link,
-::ng-deep .k-breadcrumb-link {
-  border: none !important;
-  box-shadow: none !important;
-  outline: none !important;
-  background: transparent !important;
-  color: #73818f;
-  cursor: pointer;
-  display: inline-flex;
+.header.new-header {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 13px 0px;
+  font-family: Mulish, sans-serif;
+  font-size: 13px;
+  color: #23282c;
+  white-space: nowrap;
+
+  .leftGroup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .checkbox-btn {
+      /* Thiết lập mặc định cho nút (unselected) */
+      display: inline-flex; /* đảm bảo inline-block + flex để chứa text & checkbox */
+      align-items: center;
+      background: #fff;
+      box-shadow: 1px 3px 6px 1px #8f9ba633;
+      border-radius: 15px;
+      border: 1px solid transparent; /* Khi unselected => border trong suốt */
+      padding: 5px 10px; /* tuỳ ý */
+      cursor: pointer;
+      transition: border 0.2s ease; /* mượt hơn khi hover/toggle */
+
+      .k-button-text {
+        color: #959db3;
+        margin-right: 5px;
+      }
+
+      .k-checkbox {
+        margin-left: 5px;
+        pointer-events: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        border: 1px solid #959db3;
+        background-color: #fff;
+      }
+
+      /* Hover: muốn cho nút unselected có border xanh lá? */
+      &:hover {
+        border: 1px solid #1a6634;
+      }
+
+      /* 
+        Khi NÚT ĐƯỢC CHỌN => Kendo sẽ thêm:
+          1) aria-pressed="true"
+          2) .k-selected
+        => Chúng ta override ở đây
+      */
+      &[aria-pressed="true"],
+      &.k-selected {
+        border: 2px solid #1a6634 !important;
+        
+        .k-button-text {
+          color: #1a6634 !important;
+        }
+        .k-checkbox {
+          background-color: #1a6634;
+          border-color: #1a6634;
+        }
+        .k-checkbox::before {
+          content: "";
+          position: relative;
+          display: inline-block;
+          width: 4px;
+          height: 8px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+          top: -2px;
+          left: 5px;
+        }
+      }
+
+      /* Khi NÚT KHÔNG ĐƯỢC CHỌN => aria-pressed="false" hoặc không có .k-selected */
+      &[aria-pressed="false"],
+      &:not(.k-selected) {
+        border: 1px solid transparent !important; /* hoặc muốn border = none */
+        .k-button-text {
+          color: #959db3 !important;
+        }
+        .k-checkbox {
+          background-color: #fff;
+          border-color: #959db3;
+        }
+        .k-checkbox::before {
+          content: none;
+        }
+      }
+    }
+  }
+
+  .rightGroup {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .icon-only-btn {
+      width: 35px;
+      height: 35px;
+      background: #fff;
+      box-shadow: rgba(29, 30, 31, 0.15) 0px 1px 5px;
+    }
+
+    .icon-text-btn {
+      height: 35px;
+      background: #fff;
+      box-shadow: rgba(29, 30, 31, 0.15) 0px 1px 5px;
+      color: #959db3;
+
+      .k-button-icon {
+        filter: invert(54%) sepia(18%) saturate(369%) hue-rotate(180deg) brightness(90%) contrast(85%);
+      }
+    }
+
+    .btn-add-new {
+      height: 35px;
+      background: #1a6634;
+      color: #fff;
+      font-weight: 500;
+      box-shadow: rgba(29, 30, 31, 0.15) 0px 1px 5px;
+
+      .k-button-icon {
+        filter: brightness(0) invert(1);
+      }
+    }
+  }
 }
 
-::ng-deep .k-breadcrumb-root-item .k-breadcrumb-item-text {
-  color: #1a6634 !important;
-}
-
-::ng-deep .k-breadcrumb-last-item .k-breadcrumb-item-text {
-  color: #73818f !important;
-}
-
-::ng-deep .k-breadcrumb-root-link:hover,
-::ng-deep .k-breadcrumb-root-link.k-hover {
-  color: #1a6634 !important;
-  background-color: #f5f5f5 !important;
-}
-
-::ng-deep .k-breadcrumb-link.k-disabled {
-  cursor: pointer !important;
-  opacity: 1 !important;
+::ng-deep .k-button:focus,
+::ng-deep .k-button:focus-visible,
+::ng-deep .k-button.k-focus,
+::ng-deep .k-button.k-state-focused,
+::ng-deep .k-button.k-active {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 ::ng-deep .k-icon {
-  width: 20px !important;
-  height: 20px !important;
-}
-
-.btn-add {
-  float: right;
-  margin-right: 20px;
-  height: 32px;
-  font-weight: 500;
-  cursor: pointer;
+  width: 16px !important;
+  height: 16px !important;
 }
