@@ -10,7 +10,7 @@ import { BadgePosition } from '@progress/kendo-angular-indicators';
 })
 export class HeaderWideComponent {
   public badgePosition: BadgePosition = <BadgePosition>'topEnd';
-  public currentMode: string = 'CẤU HÌNH';
+  public currentMode: string = 'NHÂN SỰ';
   constructor(private menuStateService: MenuStateService) {
     this.menuStateService.mode$.subscribe(mode => {
       this.currentMode = mode;

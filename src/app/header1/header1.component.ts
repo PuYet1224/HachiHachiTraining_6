@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-header1',
@@ -6,15 +6,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./header1.component.scss']
 })
 export class Header1Component {
-  // Demo: quản lý danh sách các status được chọn
   public statuses: string[] = [];
 
-  // Kiểm tra nút đó có đang được chọn hay không
+  constructor(private cdr: ChangeDetectorRef) {} 
   isSelected(status: string): boolean {
     return this.statuses.includes(status);
   }
 
-  // Toggle logic cơ bản
+  toggleImmediate(status: string, event: MouseEvent) {
+    event.preventDefault();
+
+    this.toggle(status);
+
+    this.cdr.detectChanges();
+  }
+
   toggle(status: string): void {
     if (this.isSelected(status)) {
       this.statuses = this.statuses.filter(s => s !== status);
@@ -24,7 +30,6 @@ export class Header1Component {
   }
 
   onAddNew() {
-    // Code xử lý khi bấm "THÊM MỚI"
     alert('Thêm mới!');
   }
 }

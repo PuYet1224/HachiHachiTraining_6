@@ -1,69 +1,47 @@
 <div class="header new-header">
-  <!-- Bên trái: 4 nút trạng thái -->
   <div class="leftGroup">
     <button
       kendoButton
-      [togglable]="true"
+      [togglable]="false"
       [selected]="isSelected('Đang soạn thảo')"
-      (click)="toggle('Đang soạn thảo')"
+      (click)="toggleImmediate('Đang soạn thảo', $event)"
       class="checkbox-btn"
     >
       Đang soạn thảo
-      <input type="checkbox" class="k-checkbox" disabled [checked]="isSelected('Đang soạn thảo')" />
+      <div class="k-checkbox" [class.checked]="isSelected('Đang soạn thảo')"></div>
     </button>
 
     <button
       kendoButton
-      [togglable]="true"
+      [togglable]="false"
       [selected]="isSelected('Gửi duyệt')"
-      (click)="toggle('Gửi duyệt')"
+      (click)="toggleImmediate('Gửi duyệt', $event)"
       class="checkbox-btn"
     >
       Gửi duyệt
-      <input type="checkbox" class="k-checkbox" disabled [checked]="isSelected('Gửi duyệt')" />
+      <div class="k-checkbox" [class.checked]="isSelected('Gửi duyệt')"></div>
     </button>
 
     <button
       kendoButton
-      [togglable]="true"
+      [togglable]="false"
       [selected]="isSelected('Đã duyệt')"
-      (click)="toggle('Đã duyệt')"
+      (click)="toggleImmediate('Đã duyệt', $event)"
       class="checkbox-btn"
     >
       Đã duyệt
-      <input type="checkbox" class="k-checkbox" disabled [checked]="isSelected('Đã duyệt')" />
+      <div class="k-checkbox" [class.checked]="isSelected('Đã duyệt')"></div>
     </button>
 
     <button
       kendoButton
-      [togglable]="true"
+      [togglable]="false"
       [selected]="isSelected('Ngừng áp dụng')"
-      (click)="toggle('Ngừng áp dụng')"
+      (click)="toggleImmediate('Ngừng áp dụng', $event)"
       class="checkbox-btn"
     >
       Ngừng áp dụng
-      <input type="checkbox" class="k-checkbox" disabled [checked]="isSelected('Ngừng áp dụng')" />
-    </button>
-  </div>
-
-  <!-- Bên phải: 3 nút Export, Template, Thêm Mới -->
-  <div class="rightGroup">
-    <!-- Nút chỉ có icon export -->
-    <button kendoButton icon="export" class="icon-only-btn"></button>
-
-    <!-- Nút icon + text Template -->
-    <button kendoButton icon="import" class="icon-text-btn">
-      Template
-    </button>
-
-    <!-- Nút màu xanh + icon + text THÊM MỚI -->
-    <button
-      kendoButton
-      icon="plus"
-      class="btn-add-new"
-      (click)="onAddNew()"
-    >
-      THÊM MỚI
+      <div class="k-checkbox" [class.checked]="isSelected('Ngừng áp dụng')"></div>
     </button>
   </div>
 </div>

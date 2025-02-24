@@ -12,7 +12,7 @@ export class SidebarComponent implements OnInit {
   public activeParent: string | null = null;
   public selectedChild: string | null = null;
   public isMenuOpen: boolean = true;
-  public currentMode: string = 'CẤU HÌNH';
+  public currentMode: string = 'NHÂN SỰ';
 
   constructor(private menuStateService: MenuStateService) {}
 

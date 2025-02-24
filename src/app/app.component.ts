@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit, OnDestroy {
   title: string = 'HachiHachiTraining_5';
   isPersonalInfoSelected: boolean = false;
-  currentMode: string = 'CẤU HÌNH';
+  currentMode: string = 'NHÂN SỰ';
   private subs = new Subscription();
 
   constructor(
