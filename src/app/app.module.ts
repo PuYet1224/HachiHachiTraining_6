@@ -25,6 +25,7 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 import { EditWrapperComponent } from './edit-wrapper/edit-wrapper.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { MultiPopupComponent } from './multi-popup/multi-popup.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
     Header2Component,
     GridWrapperComponent,
     EditWrapperComponent,
+    MultiPopupComponent,
   ],
   imports: [
     ReactiveFormsModule,

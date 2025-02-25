@@ -1,0 +1,42 @@
+<div *ngIf="selectedItems && selectedItems.length > 0" class="popup-container">
+    <div class="popup-header">
+      <div class="selected-count">{{ selectedItems.length }}</div>
+      <div class="selected-text">Đã chọn</div>
+    </div>
+    <div class="popup-actions">
+      <button kendoButton fillMode="flat" class="action-button" (click)="sendForApproval()">
+        <kendo-icon name="send"></kendo-icon>
+        Gửi duyệt
+      </button>
+      <button kendoButton fillMode="flat" class="action-button" (click)="returnItem()">
+        <kendo-icon name="undo"></kendo-icon>
+        Trả về
+      </button>
+      <button kendoButton fillMode="flat" class="action-button" (click)="approveApply()">
+        <kendo-icon name="check"></kendo-icon>
+        Duyệt áp dụng
+      </button>
+      <button kendoButton fillMode="flat" class="action-button" (click)="stopApply()">
+        <kendo-icon name="minus"></kendo-icon>
+        Ngừng áp dụng
+      </button>
+      <button kendoButton fillMode="flat" class="action-button delete-button" (click)="deleteItem()">
+        <kendo-icon name="trash"></kendo-icon>
+        Xóa câu hỏi
+      </button>
+    </div>
+  </div>
+  
+  <kendo-popup
+    *ngIf="showDetailPopup"
+    [anchor]="popupAnchor"
+    [popupAlign]="{ vertical: 'bottom', horizontal: 'right' }"
+    [animate]="true"
+    (close)="closeDetailPopup()"
+  >
+    <div class="detail-popup-content">
+      <p>Nội dung chi tiết</p>
+      <button kendoButton class="close-button" (click)="closeDetailPopup()">Đóng</button>
+    </div>
+  </kendo-popup>
+  

@@ -21,6 +21,9 @@
       border: 1px solid transparent;
       padding: 5px 10px;
       cursor: pointer;
+      height: 30px;
+      background-color: #fff;
+
 
       .k-button-text {
         color: #959db3;
@@ -34,15 +37,18 @@
         border-radius: 4px;
         border: 2px solid #959db3;
         background-color: #fff;
+
       }
 
       &:hover {
         border: 1px solid #1a6634;
+        background-color: #fff;
+        filter: brightness(1.1);
       }
 
       &[aria-pressed="true"],
       &.k-selected {
-        border: 2px solid #1a6634 !important;
+        border: 1px solid #1a6634 !important;
 
         .k-button-text {
           color: #1a6634 !important;
@@ -51,6 +57,8 @@
         .k-checkbox {
           background-color: #1a6634;
           border-color: #1a6634;
+
+     
         }
 
         .k-checkbox::before {
@@ -58,19 +66,17 @@
           position: relative;
           display: inline-block;
           width: 4px;
-          height: 8px;
+          height: 12px;
           border: solid white;
           border-width: 0 2px 2px 0;
           transform: rotate(45deg);
-          top: -2px;
-          left: 5px;
+          top: -3px;
+          left: 1px;
         }
       }
 
       &[aria-pressed="false"],
       &:not(.k-selected) {
-        border: 1px solid transparent !important;
-        background-color: #fff;
 
         .k-button-text {
           color: #959db3 !important;
@@ -87,6 +93,7 @@
     display: flex;
     align-items: center;
     gap: 20px;
+    margin-left: 840px;
 
     .icon-only-btn {
       width: 35px;
@@ -107,7 +114,7 @@
     }
 
     .btn-add-new {
-      height: 35px;
+      height: 32px;
       background: #1a6634;
       color: #fff;
       font-weight: 500;
@@ -133,4 +140,21 @@
 .checkbox-btn.k-focus {
   box-shadow: none !important;
   outline: none !important;
+}
+.checkbox-btn:hover .k-checkbox {
+  background-color: #1a6634 !important;
+  border-color: #1a6634 !important;
+}
+
+.k-button-solid-base{
+  height: 32px;
+  background-color: #fff;
+  box-shadow: 1px 3px 6px 1px #8f9ba633;
+  background-image: none;
+  color: #23282c;
+
+  &:hover{
+  border: 1px solid #1a6634 !important;
+
+  } 
 }

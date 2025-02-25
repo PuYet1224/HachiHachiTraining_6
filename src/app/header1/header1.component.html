@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://unpkg.com/@progress/kendo-font-icons/dist/index.css"/>
+
 <div class="header new-header">
   <div class="leftGroup">
     <button
@@ -42,6 +44,19 @@
     >
       Ngừng áp dụng
       <div class="k-checkbox" [class.checked]="isSelected('Ngừng áp dụng')"></div>
+    </button>
+  </div>
+
+  <!-- Bổ sung rightGroup -->
+  <div class="rightGroup">
+    <button kendoButton class="icon-btn">
+      <kendo-icon name="export"></kendo-icon>
+    </button>
+    <button kendoButton class="icon-btn">
+      <kendo-icon name="import"></kendo-icon>Template
+    </button>
+    <button kendoButton class="btn-add-new">
+      <kendo-icon name="plus"></kendo-icon>THÊM MỚI
     </button>
   </div>
 </div>

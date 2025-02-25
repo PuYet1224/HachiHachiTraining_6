@@ -24,7 +24,7 @@
                          class="k-textbox k-input k-input-md k-rounded-md k-input-solid"
                          [(ngModel)]="searchTerm"
                          (keypress)="searchOnEnter($event)"
-                         placeholder="Tìm theo CCCD/CMND, họ và tên, tên tài khoản">
+                         placeholder="Tìm theo mã và câu hỏi">
           </kendo-textbox>
         </div>
         <button kendobutton
@@ -37,14 +37,3 @@
     </div>
   </div>
 
-  <!-- Cột 3: Dropdown chọn công ty -->
-  <div class="company-dropdown">
-    <label for="companySelect">Chọn Công Ty:</label>
-    <kendo-multiselect
-      id="companySelect"
-      [data]="companyList"
-      [(ngModel)]="selectedCompanies"
-      placeholder="Chọn công ty">
-    </kendo-multiselect>
-  </div>
-</div>
