@@ -1,15 +1,24 @@
 <app-multi-popup [selectedItems]="selectedItems"></app-multi-popup>
 <div class="grid-wrapper">
-  <kendo-grid [data]="data" style="height: 100%;" [scrollable]="'scrollable'" class="grid scrollable grid-custom">
+  <kendo-grid
+    [data]="data"
+    [scrollable]="'scrollable'"
+    style="height: 100%;"
+    class="grid scrollable grid-custom"
+  >
     <kendo-grid-column [width]="50">
       <ng-template kendoGridHeaderTemplate>
         <input type="checkbox" [checked]="allSelected" (change)="toggleAll()" />
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
-        <input type="checkbox" [(ngModel)]="dataItem.selected" (change)="onItemSelectChange(dataItem)" />
+        <input
+          type="checkbox"
+          [(ngModel)]="dataItem.selected"
+          (change)="onItemSelectChange(dataItem)"
+        />
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="question" title="Câu hỏi" [width]="250">
+    <kendo-grid-column field="question" title="Câu hỏi" [width]="200">
       <ng-template kendoGridCellTemplate let-dataItem>
         {{ dataItem.question }}
       </ng-template>
@@ -19,7 +28,7 @@
         {{ dataItem.group }}
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="workTime" title="Thời gian làm" [width]="180">
+    <kendo-grid-column field="workTime" title="Thời gian làm" [width]="150">
       <ng-template kendoGridCellTemplate let-dataItem>
         {{ dataItem.workTime }}
       </ng-template>
@@ -36,8 +45,7 @@
             #menuButton
             kendobutton
             icon="more-horizontal"
-            class="k-button k-button-icon togglePopup k-icon-button k-button-md k-rounded-md k-button-solid-base k-button-solid"
-            role="button"
+            class="k-button k-button-icon togglePopup k-icon-button"
             (click)="toggleMenu(rowIndex, menuButton)"
           >
             <kendo-icon class="k-i-more-horizontal k-button-icon k-icon"></kendo-icon>
@@ -50,12 +58,7 @@
             (close)="openedRowIndex = null"
           >
             <div class="popup-content">
-              <button (click)="openEditPage(dataItem)" class="menu-item">
-                <kendo-icon name="edit"></kendo-icon> Chỉnh sửa
-              </button>
-              <button (click)="openDetailPopup()" class="menu-item">
-                <kendo-icon name="info"></kendo-icon> Chi tiết
-              </button>
+              <p>Trạng thái: {{ dataItem.status }}</p>
             </div>
           </kendo-popup>
         </div>

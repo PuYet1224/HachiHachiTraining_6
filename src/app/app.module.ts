@@ -58,7 +58,7 @@ import { MultiPopupComponent } from './multi-popup/multi-popup.component';
     GridModule,
     PopupModule,
     DateInputsModule,
-    LayoutModule
+    LayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

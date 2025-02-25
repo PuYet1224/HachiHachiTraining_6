@@ -6,6 +6,8 @@
     width: 220px;
     height: 100vh;
     background-color: #464e61; 
+    z-index: 2000;
+    position: relative;
   }
 
   .content {
@@ -21,6 +23,8 @@
       background: #fff;
       border-bottom: 1px solid #c8ced3;
       border-left: 1px solid #5c6873;
+      position: relative;
+      z-index: 2000;
     }
 
     app-header1 {

@@ -101,6 +101,10 @@
       justify-content: center;
     }
   }
+  ::ng-deep input[type="checkbox"] {
+    accent-color: #1a6634;
+  }
+  
 
   .k-grid {
     border: none;
