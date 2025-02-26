@@ -12,8 +12,6 @@
     [pageSize]="pageSize"
     [skip]="skip"
     [scrollable]="'scrollable'"
-    [pageable]="{ buttonCount: 4, pageSizes: [25, 50, 75], previousNext: true, info: true }"
-    (pageChange)="pageChange($event)"
     class="grid scrollable grid-custom"
     style="height: 100%;"
   >
@@ -76,4 +74,59 @@
       </ng-template>
     </kendo-grid-column>
   </kendo-grid>
+</div>
+
+<!-- Custom pagination thay thế navigation của kendo -->
+<div class="custom-pagination" [class.disabled]="disabled">
+  <div class="left-c">
+    <span>Hiển thị mỗi trang</span>
+    <select [value]="pageSize" (change)="onItemsPerPageChangeSelect($event)" [disabled]="disabled">
+      <option *ngFor="let size of pageSizes" [value]="size">
+        {{ size }}
+      </option>
+    </select>
+  </div>
+  <div class="right-c">
+    <button (click)="handleFirst()" [disabled]="currentPage === 1 || disabled" class="arrow-button first-last-button">
+      Đầu
+    </button>
+    <button (click)="handlePrev()" [disabled]="currentPage === 1 || disabled" class="arrow-button">
+      <kendo-icon name="chevron-left"></kendo-icon>
+    </button>
+
+    <ng-container *ngFor="let page of pages">
+      <button
+        *ngIf="isNumberPage(page)"
+        (click)="goToPage(page)"
+        class="page-button"
+        [class.active]="isActivePage(page)"
+        [disabled]="disabled"
+      >
+        {{ page }}
+      </button>
+      <button
+        *ngIf="isLeftEllipsis(page)"
+        (click)="handleEllipsis('left')"
+        class="ellipsis-button"
+        [disabled]="disabled"
+      >
+        ...
+      </button>
+      <button
+        *ngIf="isRightEllipsis(page)"
+        (click)="handleEllipsis('right')"
+        class="ellipsis-button"
+        [disabled]="disabled"
+      >
+        ...
+      </button>
+    </ng-container>
+
+    <button (click)="handleNext()" [disabled]="currentPage === totalPages || disabled" class="arrow-button">
+      <kendo-icon name="chevron-right"></kendo-icon>
+    </button>
+    <button (click)="handleLast()" [disabled]="currentPage === totalPages || disabled" class="arrow-button first-last-button">
+      Cuối
+    </button>
+  </div>
 </div>
