@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title: string = 'HachiHachiTraining_5';
-  isPersonalInfoSelected: boolean = false;
-  currentMode: string = 'NHÂN SỰ';
+  title = 'HachiHachiTraining_5';
+  isPersonalInfoSelected = false;
+  currentMode = 'NHÂN SỰ';
   private subs = new Subscription();
 
   constructor(
@@ -25,7 +25,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isPersonalInfoSelected = (selectedMenu === 'Hồ sơ nhân sự > Thông tin cá nhân');
       })
     );
-
     this.subs.add(
       this.menuStateService.mode$.subscribe(mode => {
         this.currentMode = mode;
@@ -35,6 +34,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   get isEditPage(): boolean {
     return this.router.url.includes('/edit-page');
+  }
+
+  onStatusesChange(newStatuses: string[]) {
+    console.log('onStatusesChange:', newStatuses);
+  }
+
+  onSearchChange(newTerm: string) {
+    console.log('onSearchChange:', newTerm);
   }
 
   ngOnDestroy(): void {

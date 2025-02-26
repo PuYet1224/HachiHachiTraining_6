@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { iconList } from "../../assets/icons/icon-lists";
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header2',
@@ -7,16 +6,12 @@ import { iconList } from "../../assets/icons/icon-lists";
   styleUrls: ['./header2.component.scss']
 })
 export class Header2Component {
-  searchTerm: string = '';
-  companyList: string[] = ['Việt Hạ Chí', 'Lập Sơn', 'Việt Hạ Chí'];
-  selectedCompanies: string[] = [];
-
-  public icons = iconList;
+  @Output() searchChanged = new EventEmitter<string>();
+  searchTerm = '';
 
   resetSearch() {
     this.searchTerm = '';
-    this.selectedCompanies = [];
-    console.log('Bộ lọc đã được reset');
+    this.searchChanged.emit('');
   }
 
   searchOnEnter(event: KeyboardEvent) {
@@ -26,6 +21,6 @@ export class Header2Component {
   }
 
   search() {
-    console.log('Đang tìm kiếm:', this.searchTerm, this.selectedCompanies);
+    this.searchChanged.emit(this.searchTerm);
   }
 }

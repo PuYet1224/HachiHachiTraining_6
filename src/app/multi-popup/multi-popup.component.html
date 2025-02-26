@@ -1,32 +1,28 @@
-<div class="modal-overlay" *ngIf="selectedItems && selectedItems.length > 0"></div>
-<div class="popup-container" *ngIf="selectedItems && selectedItems.length > 0">
-  <div class="popup-left">
-    <div class="selected-count">{{ selectedItems.length }}</div>
-    <div class="selected-text">Đã chọn</div>
+<div *ngIf="selectedItems.length > 0" id="selectedRowitemDialog" class="action-bar">
+  <div class="box count-box">
+    <div class="count" style="font-size: 30px;">{{ selectedItems.length }}</div>
+    <div style="font-size: 13px;">Đã chọn</div>
   </div>
-  <div class="popup-right">
-    <div class="popup-header">
-      <div class="popup-actions">
-        <button kendoButton fillMode="flat" class="action-button" *ngIf="allowedActions.includes('Gửi duyệt')" (click)="sendForApproval()">
-          <kendo-icon name="redo"></kendo-icon> Gửi duyệt
-        </button>
-        <button kendoButton fillMode="flat" class="action-button" *ngIf="allowedActions.includes('Phê duyệt')" (click)="approve()">
-          <kendo-icon name="check"></kendo-icon> Phê duyệt
-        </button>
-        <button kendoButton fillMode="flat" class="action-button" *ngIf="allowedActions.includes('Trả về')" (click)="returnItem()">
-          <kendo-icon name="undo"></kendo-icon> Trả về
-        </button>
-        <button kendoButton fillMode="flat" class="action-button" *ngIf="allowedActions.includes('Ngừng áp dụng')" (click)="stopApply()">
-          <kendo-icon name="minus"></kendo-icon> Ngừng áp dụng
-        </button>
-        <button kendoButton fillMode="flat" class="action-button delete-button" *ngIf="allowedActions.includes('Xóa')" (click)="deleteItem()">
-          <kendo-icon name="trash"></kendo-icon> Xóa
-        </button>
-      </div>
-      <kendo-separator></kendo-separator>
-      <button kendoButton fillMode="flat" class="close-button" (click)="closePopup()">
-        <kendo-icon name="close"></kendo-icon>
-      </button>
-    </div>
+  <div *ngIf="allowedActions.includes('Gửi duyệt')" class="box box-btn" (click)="sendForApproval()">
+    <div><kendo-icon name="redo"></kendo-icon></div>
+    <div>Gởi duyệt</div>
   </div>
+  <div *ngIf="allowedActions.includes('Phê duyệt')" class="box box-btn" (click)="approve()">
+    <div><kendo-icon name="check-outline"></kendo-icon></div>
+    <div>Phê duyệt</div>
+  </div>
+  <div *ngIf="allowedActions.includes('Trả về')" class="box box-btn" (click)="returnItem()">
+    <div><kendo-icon name="undo"></kendo-icon></div>
+    <div>Trả về</div>
+  </div>
+  <div *ngIf="allowedActions.includes('Ngừng áp dụng')" class="box box-btn" (click)="stopApply()">
+    <div><kendo-icon name="minus-outline"></kendo-icon></div>
+    <div>Ngưng áp dụng</div>
+  </div>
+  <div *ngIf="allowedActions.includes('Xóa câu hỏi')" class="box box-btn delete-btn" (click)="deleteItem()">
+    <div><kendo-icon name="trash"></kendo-icon></div>
+    <div>Xóa câu hỏi</div>
+  </div>
+  <div class="divider"></div>
+  <div class="box box-btn close-btn" (click)="closePopup()">X</div>
 </div>

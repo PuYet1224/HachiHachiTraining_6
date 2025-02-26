@@ -1,162 +1,58 @@
-:host {
-  display: block;
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 999;
-}
-
-.popup-container {
-  position: fixed;
-  z-index: 1000;
+.action-bar {
+  position: absolute;
+  z-index: 100;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
-  align-items: stretch;
+  background: #fff;
   border-radius: 4px;
-  overflow: hidden;
-  min-width: 600px;
-  max-width: 700px;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  height: 80px;
-  font-family: 'Mulish', sans-serif;
-
+  display: flex;
+  align-items: center;
+  font-family: "Mulish", sans-serif;
 }
 
-.popup-left {
-  background-color: #066839;
+.count-box {
+  background: #1a6634;
+  color: #fff;
+  padding: 0 20px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 100px;
+  height: 68px;
 }
 
-.selected-count {
-  font-size: 28px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 4px;
-}
-
-.selected-text {
-  font-size: 14px;
-  color: #fff;
-}
-
-.popup-right {
-  flex: 1;
+.box-btn {
+  padding: 0 15px;
+  height: 68px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 0 16px;
-}
-
-.popup-header {
-  display: flex;
-  align-items: center;
-  height: 100%;
-}
-
-.popup-actions {
-  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-}
-
-.action-button {
-  font-size: 13px;
-  color: #333;
   cursor: pointer;
-  text-align: center;
-  font-family: 'Mulish', sans-serif;
+  background: transparent;
+  font-size: 13px;
 }
 
-.action-button:hover {
-  opacity: 0.7;
+.box-btn:hover {
+  background: #8f9ba6;
+  color: #fff;
 }
 
-.action-button kendo-icon {
-  font-size: 22px;
-  color: #666;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto 10px auto;
+.box-btn > div:first-child {
+  margin-bottom: 5px;
 }
 
-.delete-button {
-  color: #d32f2f;
+.divider {
+  width: 1px;
+  height: 50px;
+  background: #c8ced3;
+  margin: 0;
 }
 
-.delete-button kendo-icon {
-  color: #d32f2f;
+.close-btn {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
-
-.close-button {
-  margin-left: auto;
-  color: #666;
-}
-
-.close-button:hover {
-  opacity: 0.7;
-}
-.k-input-separator,
-.k-input-separator-vertical {
-  height: 45px;
-  color: #BDC2D2;
-  margin-top: 15px;
-}
-
-.detail-popup-content {
-  background-color: #fff;
-  padding: 12px 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.detail-popup-content p {
-  margin: 0 0 12px 0;
-}
-
-:host ::ng-deep .k-button:focus {
-  outline: none !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-:host ::ng-deep .k-button,
-:host ::ng-deep .k-button:hover,
-:host ::ng-deep .k-button:active,
-:host ::ng-deep .k-button:focus,
-:host ::ng-deep .k-button.k-focus {
-  border: 1px solid transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  margin: 0 !important;
-  padding: 0.25rem 0.5rem !important; 
-}
-
-:host ::ng-deep .k-button.k-focus.k-button-flat::after,
-:host ::ng-deep .k-button.k-focus.k-button-flat::before {
-  display: none !important;
-  box-shadow: none !important;
-  opacity: 0 !important;
-}
-
-:host ::ng-deep button {
-  border: 0 !important;
-  outline: none !important;
-  box-shadow: none !important;
-  -webkit-appearance: none;
-  appearance: none;
-}
-

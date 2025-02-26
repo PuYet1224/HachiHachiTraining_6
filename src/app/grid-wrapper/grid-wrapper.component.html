@@ -1,43 +1,54 @@
-<app-multi-popup [selectedItems]="selectedItems"></app-multi-popup>
+<app-header1 (filterStatuses)="onStatusesChange($event)"></app-header1>
+<app-header2 (searchChanged)="onSearchChange($event)"></app-header2>
+<app-multi-popup 
+  [selectedItems]="selectedItems" 
+  (popupClosed)="onPopupClose()"
+  (statusChanged)="onStatusChanged()">
+</app-multi-popup>
+
 <div class="grid-wrapper">
   <kendo-grid
-    [data]="data"
+    [data]="gridView.data"
+    [pageSize]="pageSize"
+    [skip]="skip"
     [scrollable]="'scrollable'"
-    style="height: 100%;"
+    [pageable]="{ buttonCount: 4, pageSizes: [25, 50, 75], previousNext: true, info: true }"
+    (pageChange)="pageChange($event)"
     class="grid scrollable grid-custom"
+    style="height: 100%;"
   >
     <kendo-grid-column [width]="50">
       <ng-template kendoGridHeaderTemplate>
         <input type="checkbox" [checked]="allSelected" (change)="toggleAll()" />
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
-        <input
-          type="checkbox"
-          [(ngModel)]="dataItem.selected"
-          (change)="onItemSelectChange(dataItem)"
-        />
+        <input type="checkbox" [(ngModel)]="dataItem.selected" (change)="onItemSelectChange(dataItem)" />
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="question" title="Câu hỏi" [width]="200">
+
+    <kendo-grid-column title="Câu hỏi" [width]="200">
       <ng-template kendoGridCellTemplate let-dataItem>
-        {{ dataItem.question }}
+        <div class="col-name">
+          <div class="name-ctn">
+            <div class="name">{{ dataItem.Code }}</div>
+            <div class="cccd">{{ dataItem.Question }}</div>
+          </div>
+        </div>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="group" title="Phân nhóm" [width]="200">
+
+    <kendo-grid-column field="CategoryName" title="Phân nhóm" [width]="150">
       <ng-template kendoGridCellTemplate let-dataItem>
-        {{ dataItem.group }}
+        {{ dataItem.CategoryName }}
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="workTime" title="Thời gian làm" [width]="150">
+
+    <kendo-grid-column field="StatusName" title="Tình Trạng" [width]="150">
       <ng-template kendoGridCellTemplate let-dataItem>
-        {{ dataItem.workTime }}
+        {{ dataItem.StatusName }}
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="status" title="Tình trạng" [width]="150">
-      <ng-template kendoGridCellTemplate let-dataItem>
-        {{ dataItem.status }}
-      </ng-template>
-    </kendo-grid-column>
+
     <kendo-grid-column title="" [width]="30">
       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
         <div class="action">
@@ -58,7 +69,7 @@
             (close)="openedRowIndex = null"
           >
             <div class="popup-content">
-              <p>Trạng thái: {{ dataItem.status }}</p>
+              <p>Trạng thái: {{ dataItem.StatusName }}</p>
             </div>
           </kendo-popup>
         </div>
