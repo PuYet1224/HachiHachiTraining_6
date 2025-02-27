@@ -33,4 +33,10 @@ export class Header1Component implements OnInit {
       this.statuses.push(status);
     }
   }
+
+  reset() {
+    this.statuses = ['Đang soạn thảo'];
+    this.filterStatuses.emit(this.statuses);
+    this.cdr.detectChanges();
+  }
 }

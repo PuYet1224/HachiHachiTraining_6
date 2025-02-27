@@ -1,6 +1,5 @@
-<app-header1 (filterStatuses)="onStatusesChange($event)"></app-header1>
-<app-header2 (searchChanged)="onSearchChange($event)"></app-header2>
-<app-multi-popup 
+<app-header1 #header1 (filterStatuses)="onStatusesChange($event)"></app-header1>
+<app-header2 (searchChanged)="onSearchChange($event)" (resetFilters)="onResetFilters()"></app-header2><app-multi-popup 
   [selectedItems]="selectedItems" 
   (popupClosed)="onPopupClose()"
   (statusChanged)="onStatusChanged()">
@@ -28,8 +27,8 @@
       <ng-template kendoGridCellTemplate let-dataItem>
         <div class="col-name">
           <div class="name-ctn">
-            <div class="name">{{ dataItem.Code }}</div>
-            <div class="cccd">{{ dataItem.Question }}</div>
+            <div class="remark">{{ dataItem.Remark }}</div>
+            <div class="name">{{ dataItem.QuestionID }} | {{ dataItem.TypeOfQuestionName }}</div>
           </div>
         </div>
       </ng-template>
@@ -67,7 +66,9 @@
             (close)="openedRowIndex = null"
           >
             <div class="popup-content">
-              <p>Trạng thái: {{ dataItem.StatusName }}</p>
+              <ng-container *ngFor="let action of getActions(dataItem.StatusName)">
+                <button kendoButton class="menu-item" (click)="onActionClick(action, dataItem)">{{ action }}</button>
+              </ng-container>
             </div>
           </kendo-popup>
         </div>
@@ -76,7 +77,6 @@
   </kendo-grid>
 </div>
 
-<!-- Custom pagination thay thế navigation của kendo -->
 <div class="custom-pagination" [class.disabled]="disabled">
   <div class="left-c">
     <span>Hiển thị mỗi trang</span>
@@ -93,7 +93,6 @@
     <button (click)="handlePrev()" [disabled]="currentPage === 1 || disabled" class="arrow-button">
       <kendo-icon name="chevron-left"></kendo-icon>
     </button>
-
     <ng-container *ngFor="let page of pages">
       <button
         *ngIf="isNumberPage(page)"
@@ -121,7 +120,6 @@
         ...
       </button>
     </ng-container>
-
     <button (click)="handleNext()" [disabled]="currentPage === totalPages || disabled" class="arrow-button">
       <kendo-icon name="chevron-right"></kendo-icon>
     </button>

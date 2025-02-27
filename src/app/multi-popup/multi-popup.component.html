@@ -3,7 +3,7 @@
     <div class="count" style="font-size: 30px;">{{ selectedItems.length }}</div>
     <div style="font-size: 13px;">Đã chọn</div>
   </div>
-  <div *ngIf="allowedActions.includes('Gửi duyệt')" class="box box-btn" (click)="sendForApproval()">
+  <div *ngIf="allowedActions.includes('Gởi duyệt')" class="box box-btn" (click)="sendForApproval()">
     <div><kendo-icon name="redo"></kendo-icon></div>
     <div>Gởi duyệt</div>
   </div>
@@ -15,7 +15,7 @@
     <div><kendo-icon name="undo"></kendo-icon></div>
     <div>Trả về</div>
   </div>
-  <div *ngIf="allowedActions.includes('Ngừng áp dụng')" class="box box-btn" (click)="stopApply()">
+  <div *ngIf="allowedActions.includes('Ngưng áp dụng')" class="box box-btn" (click)="stopApply()">
     <div><kendo-icon name="minus-outline"></kendo-icon></div>
     <div>Ngưng áp dụng</div>
   </div>

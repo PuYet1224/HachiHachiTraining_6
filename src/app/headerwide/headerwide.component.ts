@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { MenuStateService } from '../services/menu-state.service';
 import { BadgePosition } from '@progress/kendo-angular-indicators';
 
@@ -11,11 +11,14 @@ import { BadgePosition } from '@progress/kendo-angular-indicators';
 export class HeaderWideComponent {
   public badgePosition: BadgePosition = <BadgePosition>'topEnd';
   public currentMode: string = 'NHÂN SỰ';
-  constructor(private menuStateService: MenuStateService) {
+
+  constructor(private menuStateService: MenuStateService, private cdr: ChangeDetectorRef) {
     this.menuStateService.mode$.subscribe(mode => {
       this.currentMode = mode;
+      this.cdr.detectChanges();
     });
   }
+
   selectMode(mode: string) {
     this.menuStateService.setMode(mode);
   }

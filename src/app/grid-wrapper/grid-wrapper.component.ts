@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { QuestionService } from '../services/question.service';
 import { GridDataResult } from '@progress/kendo-angular-grid';
+import { Header1Component } from '../header1/header1.component';
 
 @Component({
   selector: 'app-grid-wrapper',
@@ -9,23 +10,21 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
   styleUrls: ['./grid-wrapper.component.scss']
 })
 export class GridWrapperComponent implements OnInit {
+  @ViewChild('header1') header1Component!: Header1Component;
   gridView: GridDataResult = { data: [], total: 0 };
   skip = 0;
   pageSize = 25;
   pageSizes = [25, 50, 75, 100];
-  currentPage: number = 1;
-  totalPages: number = 1;
-  groupSize: number = 3;
-  disabled: boolean = false;
+  currentPage = 1;
+  totalPages = 1;
+  groupSize = 3;
+  disabled = false;
   allSelected = false;
   selectedItems: any[] = [];
   openedRowIndex: number | null = null;
   popupAnchor: any;
   statuses: string[] = [];
   searchTerm = '';
-
-  left_arrow = 'assets/left-chevron.png';
-  right_arrow = 'assets/right-chevron.png';
 
   constructor(
     private router: Router,
@@ -47,26 +46,44 @@ export class GridWrapperComponent implements OnInit {
     this.loadData();
   }
 
+  onResetFilters() {
+    if (this.header1Component) {
+      this.header1Component.reset();
+    }
+    this.searchTerm = '';
+    this.loadData();
+  }
+
+  getStatusFilters(s: string): string[] {
+    if (s === 'Đang soạn thảo')
+      return ["StatusName~eq~'Đang soạn thảo'", "StatusName~eq~'Trả về'"];
+    if (s === 'Gởi duyệt')
+      return ["StatusName~eq~'Gởi duyệt'"];
+    if (s === 'Duyệt áp dụng')
+      return ["StatusName~eq~'Duyệt áp dụng'"];
+    if (s === 'Ngưng áp dụng')
+      return ["StatusName~eq~'Ngưng áp dụng'"];
+    return [];
+  }
+
   loadData() {
-    const orParts: string[] = [];
+    const filterParts: string[] = [];
     this.statuses.forEach(s => {
-      const id = this.mapStatus(s);
-      if (id !== undefined) {
-        orParts.push(`StatusID~eq~${id}`);
+      const filters = this.getStatusFilters(s);
+      if (filters.length) {
+        filterParts.push('(' + filters.join('~or~') + ')');
       }
     });
-    let filter = orParts.length ? '(' + orParts.join('~or~') + ')' : '';
+    let filter = filterParts.length ? '(' + filterParts.join('~or~') + ')' : '';
     if (this.searchTerm) {
-      const searchFilter = `(Question~contains~'${this.searchTerm}')`;
+      const searchFilter = `Question~contains~'${this.searchTerm}'`;
       filter = filter ? filter + '~and~' + searchFilter : searchFilter;
     }
-
     const body = {
       filter,
       pageSize: this.pageSize,
       skip: this.skip
     };
-
     this.questionService.getAllQuestions(body).subscribe((res: any) => {
       if (res && res.ObjectReturn && res.ObjectReturn.Data) {
         this.gridView = {
@@ -87,14 +104,6 @@ export class GridWrapperComponent implements OnInit {
       this.totalPages = 1;
     }
     this.currentPage = Math.floor(this.skip / this.pageSize) + 1;
-  }
-
-  mapStatus(s: string) {
-    if (s === 'Đang soạn thảo') return 0;
-    if (s === 'Gởi duyệt') return 1;
-    if (s === 'Đã duyệt' || s === 'Duyệt áp dụng' || s === 'chờ duyệt') return 2;
-    if (s === 'Ngừng áp dụng') return 4;
-    return undefined;
   }
 
   toggleMenu(rowIndex: number, button: HTMLElement) {
@@ -135,8 +144,7 @@ export class GridWrapperComponent implements OnInit {
 
   onItemsPerPageChangeSelect(event: Event) {
     const target = event.target as HTMLSelectElement;
-    const newPageSize = Number(target.value);
-    this.pageSize = newPageSize;
+    this.pageSize = Number(target.value);
     this.skip = 0;
     this.loadData();
   }
@@ -227,5 +235,48 @@ export class GridWrapperComponent implements OnInit {
 
   isActivePage(page: number | string): boolean {
     return this.isNumberPage(page) && this.currentPage === (page as number);
+  }
+
+  getActions(status: string): string[] {
+    if (status === 'Đang soạn thảo') return ['Chỉnh sửa', 'Gởi duyệt', 'Xóa'];
+    if (status === 'Gởi duyệt') return ['Chỉnh sửa', 'Phê duyệt', 'Trả về'];
+    if (status === 'Duyệt áp dụng') return ['Xem chi tiết', 'Ngưng hiển thị'];
+    if (status === 'Ngưng áp dụng') return ['Xem chi tiết', 'Phê duyệt', 'Trả về'];
+    if (status === 'Trả về') return ['Xem chi tiết', 'Gởi duyệt'];
+    return [];
+  }
+
+  onActionClick(action: string, dataItem: any) {
+    this.openedRowIndex = null;
+    if (action === 'Chỉnh sửa') {
+      this.router.navigate(['/edit', dataItem.QuestionID]);
+    } else if (action === 'Gởi duyệt') {
+      this.questionService.updateStatus([dataItem], 'Gởi duyệt').subscribe(() => {
+        dataItem.StatusName = 'Gởi duyệt';
+        this.loadData();
+      });
+    } else if (action === 'Xóa') {
+      this.questionService.deleteQuestions([dataItem]).subscribe(() => {
+        this.loadData();
+      });
+    } else if (action === 'Phê duyệt') {
+      this.questionService.updateStatus([dataItem], 'Duyệt áp dụng').subscribe(() => {
+        dataItem.StatusName = 'Duyệt áp dụng';
+        this.loadData();
+      });
+    } else if (action === 'Trả về') {
+      this.questionService.updateStatus([dataItem], 'Trả về').subscribe(() => {
+        dataItem.StatusName = 'Trả về';
+        this.loadData();
+      });
+    } else if (action === 'Xem chi tiết') {
+      this.router.navigate(['/detail', dataItem.QuestionID]);
+    } else if (action === 'Ngưng hiển thị' || action === 'Ngưng áp dụng') {
+      this.questionService.updateStatus([dataItem], 'Ngưng áp dụng').subscribe(() => {
+        dataItem.StatusName = 'Ngưng áp dụng';
+        this.loadData();
+      });
+    }
+    this.cdr.detectChanges();
   }
 }

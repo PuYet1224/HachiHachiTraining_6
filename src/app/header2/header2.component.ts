@@ -7,11 +7,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class Header2Component {
   @Output() searchChanged = new EventEmitter<string>();
+  @Output() resetFilters = new EventEmitter<void>();
   searchTerm = '';
 
   resetSearch() {
     this.searchTerm = '';
     this.searchChanged.emit('');
+    this.resetFilters.emit();
   }
 
   searchOnEnter(event: KeyboardEvent) {

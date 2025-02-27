@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class QuestionService {
-  private token = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZCN0FDQzUyMDMwNUJGREI0RjcyNTJEQUVCMjE3N0NDMDkxRkFBRTEiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJhM3JNVWdNRnY5dFBjbExhNnlGM3pBa2ZxdUUifQ.eyJuYmYiOjE3NDA1NjgyNDAsImV4cCI6MTc0MDU3MTg0MCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdCIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0L3Jlc291cmNlcyIsImFkbWluYXBpIl0sImNsaWVudF9pZCI6ImFkbWluIiwic3ViIjoiMTc1ZWFhZDAtMjBhZC00ZDNlLWEyNzgtYTY1OGQwNWQ1NWJjIiwiYXV0aF90aW1lIjoxNzQwNTY4MjQwLCJpZHAiOiJsb2NhbCIsInByb2ZpbGUiOiIxIiwibmFtZSI6Ik5ndXnhu4VuIFbEg24gSGFjaGkiLCJzY29wZSI6WyJhZG1pbmFwaSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwYXNzd29yZCJdfQ.pItMvM_EICZCJTcSDV_CTGZQdVhKAa4r8b3Xf83zvzjew41Flk368hCv8-vF8UYeh2-or4MTHTyGDqOHpbZqsxndrK0iF34fNoVU6GKh9BAOgwwnipBiHeNBE3wFWwy__Z7yR95xc9ArXVj_Be_m05QUgYr9eSZ8GNmAQVtwXET5ZTlUTktoeR_gshu8JVwWJkfWM9hFWe-2QXJ5UWhNBvvzKVYABL8pQLSuvqju2RkTAOKblnJSeC7yoT0IXtVY7-06qZQiUXPJqLz1xwnj37fxpvpO5YhJVfa66bFCfo-J4DRDIxA9RpSho-8ogyt5ghfyYn2YvpDTgJLpCE3Fsw';
+  private token = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZCN0FDQzUyMDMwNUJGREI0RjcyNTJEQUVCMjE3N0NDMDkxRkFBRTEiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJhM3JNVWdNRnY5dFBjbExhNnlGM3pBa2ZxdUUifQ.eyJuYmYiOjE3NDA2MzI1MjksImV4cCI6MTc0MDYzNjEyOSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdCIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0L3Jlc291cmNlcyIsImFkbWluYXBpIl0sImNsaWVudF9pZCI6ImFkbWluIiwic3ViIjoiMTc1ZWFhZDAtMjBhZC00ZDNlLWEyNzgtYTY1OGQwNWQ1NWJjIiwiYXV0aF90aW1lIjoxNzQwNjMyNTI5LCJpZHAiOiJsb2NhbCIsInByb2ZpbGUiOiIxIiwibmFtZSI6Ik5ndXnhu4VuIFbEg24gSGFjaGkiLCJzY29wZSI6WyJhZG1pbmFwaSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwYXNzd29yZCJdfQ.l6h8wuA0KcQmKecvWQCLgnRtWpEuktdEe_OY7lXsvIWHkP07i9AoQzgA8lrdNULVkVC9H7nW1xQNC1Tos_Mx6M3WPU2ApZVmAeFPsAbti8xKDm6mjXIi7hH_F-0PEMTgqBpPsZ9X9VVdYTG0JzfzwfvQiXs5MOcLEoiZRIJpZYt0XoAkEt28sYKIhL7tTpe2o3jRw96QKPTdFywVHdgFHWDyZeqzNrYCPOrAE_4QQPDlz4fctIt2nvh6bzkIGafyhUkE8yjH4xrh8yRbV_E9VPS8d7HLZcRIMgn-gf_veEFGpMmgxiNBcT_qJJBwkP722t41rtEA4zFCOqFfNrtwMQ';
   private baseUrl = 'http://172.16.10.86:75/qc/api/question';
   private listUrl = `${this.baseUrl}/GetListQuestion`;
   private updateStatusUrl = `${this.baseUrl}/UpdateQuestionStatus`;
@@ -31,10 +31,10 @@ export class QuestionService {
   public updateStatus(items: any[], newStatus: string): Observable<any> {
     const statusMap: any = {
       'Đang soạn thảo': 0,
-      'Gửi duyệt': 1,
+      'Gởi duyệt': 1,
       'Duyệt áp dụng': 2,
-      'Trả về': 3,
-      'Ngừng áp dụng': 4
+      'Ngưng áp dụng': 3,
+      'Trả về': 4
     };
 
     const validItems = items.filter(item => item.Code);
@@ -51,13 +51,11 @@ export class QuestionService {
   }
 
   public deleteQuestions(items: any[]): Observable<any> {
-    // Sử dụng property "Code" thay vì "QuestionID"
     const validItems = items.filter(item => item.Code);
     if (!validItems.length) {
       return new Observable(observer => observer.complete());
     }
 
-    // Nếu API delete yêu cầu 1 mảng các object với key "Code"
     const payload = validItems.map(item => ({ Code: item.Code }));
     return this.http.post<any>(this.deleteUrl, payload, { headers: this.getHeaders() });
   }

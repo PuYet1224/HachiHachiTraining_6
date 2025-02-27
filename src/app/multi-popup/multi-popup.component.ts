@@ -30,14 +30,13 @@ export class MultiPopupComponent implements OnChanges {
   }
 
   getActionsForStatus(statusName: string): string[] {
-    if (statusName === 'Đang soạn thảo') return ['Gởi duyệt', 'Xóa'];
+    if (statusName === 'Đang soạn thảo') return ['Gởi duyệt', 'Xóa câu hỏi'];
     if (statusName === 'Gởi duyệt') return ['Phê duyệt', 'Trả về'];
-    if (statusName === 'Áp dụng') return ['Ngưng hiển thị'];
+    if (statusName === 'Duyệt áp dụng') return ['Ngưng áp dụng'];
     if (statusName === 'Ngưng áp dụng') return ['Phê duyệt', 'Trả về'];
     if (statusName === 'Trả về') return ['Gởi duyệt'];
     return [];
   }
-  
 
   sendForApproval() {
     const toUpdate = this.selectedItems.filter(
@@ -56,7 +55,7 @@ export class MultiPopupComponent implements OnChanges {
 
   approve() {
     const toUpdate = this.selectedItems.filter(
-      x => x.StatusName === 'Gởi duyệt' || x.StatusName === 'Ngừng áp dụng'
+      x => x.StatusName === 'Gởi duyệt' || x.StatusName === 'Ngưng áp dụng'
     );
     if (toUpdate.length) {
       this.questionService.updateStatus(toUpdate, 'Duyệt áp dụng').subscribe(() => {
@@ -71,11 +70,11 @@ export class MultiPopupComponent implements OnChanges {
 
   returnItem() {
     const toUpdate = this.selectedItems.filter(
-      x => x.StatusName === 'Gởi duyệt' || x.StatusName === 'Ngừng áp dụng'
+      x => x.StatusName === 'Gởi duyệt' || x.StatusName === 'Ngưng áp dụng'
     );
     if (toUpdate.length) {
       this.questionService.updateStatus(toUpdate, 'Trả về').subscribe(() => {
-        toUpdate.forEach(i => (i.StatusName = 'Trả về'));
+        toUpdate.forEach(i => i.StatusName = 'Trả về'); 
         this.statusChanged.emit();
         this.closePopup();
       });
@@ -87,8 +86,8 @@ export class MultiPopupComponent implements OnChanges {
   stopApply() {
     const toUpdate = this.selectedItems.filter(x => x.StatusName === 'Duyệt áp dụng');
     if (toUpdate.length) {
-      this.questionService.updateStatus(toUpdate, 'Ngừng áp dụng').subscribe(() => {
-        toUpdate.forEach(i => (i.StatusName = 'Ngừng áp dụng'));
+      this.questionService.updateStatus(toUpdate, 'Ngưng áp dụng').subscribe(() => {
+        toUpdate.forEach(i => (i.StatusName = 'Ngưng áp dụng'));
         this.statusChanged.emit();
         this.closePopup();
       });
