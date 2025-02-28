@@ -1,30 +1,31 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { QuestionService } from '../services/question.service';
 import { GridDataResult } from '@progress/kendo-angular-grid';
+import { PageChangeEvent } from '@progress/kendo-angular-pager';
 import { Header1Component } from '../header1/header1.component';
+import { CompositeFilterDescriptor, State } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'app-grid-wrapper',
   templateUrl: './grid-wrapper.component.html',
   styleUrls: ['./grid-wrapper.component.scss']
 })
-export class GridWrapperComponent implements OnInit {
+export class GridWrapperComponent {
+  showDeleteConfirmation: boolean = false;
+  itemToDelete: any = null;
   @ViewChild('header1') header1Component!: Header1Component;
+  @ViewChild('popupContainer', { static: true }) popupContainer!: ElementRef;
   gridView: GridDataResult = { data: [], total: 0 };
-  skip = 0;
   pageSize = 25;
   pageSizes = [25, 50, 75, 100];
-  currentPage = 1;
-  totalPages = 1;
-  groupSize = 3;
-  disabled = false;
   allSelected = false;
   selectedItems: any[] = [];
   openedRowIndex: number | null = null;
   popupAnchor: any;
   statuses: string[] = [];
   searchTerm = '';
+  skip = 0;
 
   constructor(
     private router: Router,
@@ -32,17 +33,15 @@ export class GridWrapperComponent implements OnInit {
     private questionService: QuestionService
   ) {}
 
-  ngOnInit() {
-    this.loadData();
-  }
-
   onStatusesChange(newStatuses: string[]) {
     this.statuses = newStatuses;
+    this.skip = 0;
     this.loadData();
   }
 
   onSearchChange(newTerm: string) {
     this.searchTerm = newTerm;
+    this.skip = 0;
     this.loadData();
   }
 
@@ -51,59 +50,59 @@ export class GridWrapperComponent implements OnInit {
       this.header1Component.reset();
     }
     this.searchTerm = '';
+    this.skip = 0;
     this.loadData();
   }
 
-  getStatusFilters(s: string): string[] {
-    if (s === 'Đang soạn thảo')
-      return ["StatusName~eq~'Đang soạn thảo'", "StatusName~eq~'Trả về'"];
-    if (s === 'Gởi duyệt')
-      return ["StatusName~eq~'Gởi duyệt'"];
-    if (s === 'Duyệt áp dụng')
-      return ["StatusName~eq~'Duyệt áp dụng'"];
-    if (s === 'Ngưng áp dụng')
-      return ["StatusName~eq~'Ngưng áp dụng'"];
-    return [];
-  }
-
   loadData() {
-    const filterParts: string[] = [];
-    this.statuses.forEach(s => {
-      const filters = this.getStatusFilters(s);
-      if (filters.length) {
-        filterParts.push('(' + filters.join('~or~') + ')');
+    const statusFilters: any[] = [];
+    this.statuses.forEach(status => {
+      if (status === 'Đang soạn thảo') {
+        statusFilters.push({ field: 'StatusName', operator: 'eq', value: 'Đang soạn thảo' });
+        statusFilters.push({ field: 'StatusName', operator: 'eq', value: 'Trả về' });
+      } else {
+        statusFilters.push({ field: 'StatusName', operator: 'eq', value: status });
       }
     });
-    let filter = filterParts.length ? '(' + filterParts.join('~or~') + ')' : '';
-    if (this.searchTerm) {
-      const searchFilter = `Question~contains~'${this.searchTerm}'`;
-      filter = filter ? filter + '~and~' + searchFilter : searchFilter;
+    let compositeFilter: CompositeFilterDescriptor | undefined;
+    if (statusFilters.length > 0 || this.searchTerm) {
+      compositeFilter = { logic: 'and', filters: [] };
+      if (statusFilters.length > 0) {
+        compositeFilter.filters.push({
+          logic: 'or',
+          filters: statusFilters
+        });
+      }
+      if (this.searchTerm) {
+        compositeFilter.filters.push({
+          field: 'Question',
+          operator: 'contains',
+          value: this.searchTerm
+        });
+      }
     }
-    const body = {
-      filter,
-      pageSize: this.pageSize,
+    const state: State = {
+      filter: compositeFilter,
+      take: this.pageSize,
       skip: this.skip
     };
-    this.questionService.getAllQuestions(body).subscribe((res: any) => {
+    this.questionService.getAllQuestions(state).subscribe((res: any) => {
       if (res && res.ObjectReturn && res.ObjectReturn.Data) {
         this.gridView = {
           data: res.ObjectReturn.Data,
-          total: res.ObjectReturn.TotalRecords || 0
+          total: res.ObjectReturn.Total || 0
         };
       } else {
         this.gridView = { data: [], total: 0 };
       }
-      this.calculateTotalPages();
       this.cdr.detectChanges();
     });
   }
 
-  calculateTotalPages() {
-    this.totalPages = Math.ceil(this.gridView.total / this.pageSize);
-    if (this.totalPages < 1) {
-      this.totalPages = 1;
-    }
-    this.currentPage = Math.floor(this.skip / this.pageSize) + 1;
+  pageChange({ skip, take }: PageChangeEvent): void {
+    this.skip = skip;
+    this.pageSize = take;
+    this.loadData();
   }
 
   toggleMenu(rowIndex: number, button: HTMLElement) {
@@ -118,13 +117,14 @@ export class GridWrapperComponent implements OnInit {
     } else {
       this.selectedItems = this.selectedItems.filter(i => i !== item);
     }
-    this.allSelected = this.gridView.data.length > 0 && this.selectedItems.length === this.gridView.data.length;
+    this.allSelected = this.gridView.data.length > 0 &&
+      this.selectedItems.length === this.gridView.data.length;
     this.cdr.detectChanges();
   }
 
   toggleAll() {
     this.allSelected = !this.allSelected;
-    this.gridView.data.forEach((item: any) => (item.selected = this.allSelected));
+    this.gridView.data.forEach((item: any) => item.selected = this.allSelected);
     this.selectedItems = this.allSelected ? [...this.gridView.data] : [];
     this.cdr.detectChanges();
   }
@@ -132,7 +132,7 @@ export class GridWrapperComponent implements OnInit {
   onPopupClose() {
     this.selectedItems = [];
     this.allSelected = false;
-    this.gridView.data.forEach((item: any) => (item.selected = false));
+    this.gridView.data.forEach((item: any) => item.selected = false);
     this.cdr.detectChanges();
   }
 
@@ -142,103 +142,8 @@ export class GridWrapperComponent implements OnInit {
     this.loadData();
   }
 
-  onItemsPerPageChangeSelect(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    this.pageSize = Number(target.value);
-    this.skip = 0;
-    this.loadData();
-  }
-
-  handleFirst() {
-    if (this.currentPage > 1) {
-      this.skip = 0;
-      this.loadData();
-    }
-  }
-
-  handleLast() {
-    if (this.currentPage < this.totalPages) {
-      this.skip = (this.totalPages - 1) * this.pageSize;
-      this.loadData();
-    }
-  }
-
-  handlePrev() {
-    if (this.currentPage > 1) {
-      this.skip = this.skip - this.pageSize;
-      this.loadData();
-    }
-  }
-
-  handleNext() {
-    if (this.currentPage < this.totalPages) {
-      this.skip = this.skip + this.pageSize;
-      this.loadData();
-    }
-  }
-
-  handleEllipsis(type: 'left' | 'right') {
-    const groupNumber = Math.floor((this.currentPage - 1) / this.groupSize) + 1;
-    const firstPageInGroup = (groupNumber - 1) * this.groupSize + 1;
-    const lastPageInGroup = Math.min(firstPageInGroup + this.groupSize - 1, this.totalPages);
-    let targetPage = 1;
-    if (type === 'left') {
-      targetPage = firstPageInGroup - 1;
-      targetPage = targetPage >= 1 ? targetPage : 1;
-    } else {
-      targetPage = lastPageInGroup + 1;
-      targetPage = targetPage <= this.totalPages ? targetPage : this.totalPages;
-    }
-    this.skip = (targetPage - 1) * this.pageSize;
-    this.loadData();
-  }
-
-  getPageNumbers(): (number | string)[] {
-    const pages: (number | string)[] = [];
-    const groupNumber = Math.floor((this.currentPage - 1) / this.groupSize) + 1;
-    const firstPageInGroup = (groupNumber - 1) * this.groupSize + 1;
-    const lastPageInGroup = Math.min(firstPageInGroup + this.groupSize - 1, this.totalPages);
-    if (firstPageInGroup > 1) {
-      pages.push('left-ellipsis');
-    }
-    for (let i = firstPageInGroup; i <= lastPageInGroup; i++) {
-      pages.push(i);
-    }
-    if (lastPageInGroup < this.totalPages) {
-      pages.push('right-ellipsis');
-    }
-    return pages;
-  }
-
-  get pages() {
-    return this.getPageNumbers();
-  }
-
-  isNumberPage(page: number | string): boolean {
-    return typeof page === 'number';
-  }
-
-  isLeftEllipsis(page: number | string): boolean {
-    return page === 'left-ellipsis';
-  }
-
-  isRightEllipsis(page: number | string): boolean {
-    return page === 'right-ellipsis';
-  }
-
-  goToPage(page: number | string) {
-    if (this.isNumberPage(page)) {
-      this.skip = ((page as number) - 1) * this.pageSize;
-      this.loadData();
-    }
-  }
-
-  isActivePage(page: number | string): boolean {
-    return this.isNumberPage(page) && this.currentPage === (page as number);
-  }
-
   getActions(status: string): string[] {
-    if (status === 'Đang soạn thảo') return ['Chỉnh sửa', 'Gởi duyệt', 'Xóa'];
+    if (status === 'Đang soạn thảo') return ['Chỉnh sửa', 'Gởi duyệt', 'Xóa câu hỏi'];
     if (status === 'Gởi duyệt') return ['Chỉnh sửa', 'Phê duyệt', 'Trả về'];
     if (status === 'Duyệt áp dụng') return ['Xem chi tiết', 'Ngưng hiển thị'];
     if (status === 'Ngưng áp dụng') return ['Xem chi tiết', 'Phê duyệt', 'Trả về'];
@@ -248,35 +153,75 @@ export class GridWrapperComponent implements OnInit {
 
   onActionClick(action: string, dataItem: any) {
     this.openedRowIndex = null;
+    let newStatus = '';
     if (action === 'Chỉnh sửa') {
       this.router.navigate(['/edit', dataItem.QuestionID]);
+      return;
     } else if (action === 'Gởi duyệt') {
-      this.questionService.updateStatus([dataItem], 'Gởi duyệt').subscribe(() => {
-        dataItem.StatusName = 'Gởi duyệt';
-        this.loadData();
-      });
-    } else if (action === 'Xóa') {
-      this.questionService.deleteQuestions([dataItem]).subscribe(() => {
-        this.loadData();
-      });
+      newStatus = 'Gởi duyệt';
+    } else if (action === 'Xóa câu hỏi') {
+      this.itemToDelete = dataItem;
+      this.showDeleteConfirmation = true;
+      return;
     } else if (action === 'Phê duyệt') {
-      this.questionService.updateStatus([dataItem], 'Duyệt áp dụng').subscribe(() => {
-        dataItem.StatusName = 'Duyệt áp dụng';
-        this.loadData();
-      });
+      newStatus = 'Duyệt áp dụng';
     } else if (action === 'Trả về') {
-      this.questionService.updateStatus([dataItem], 'Trả về').subscribe(() => {
-        dataItem.StatusName = 'Trả về';
-        this.loadData();
-      });
+      newStatus = 'Trả về';
     } else if (action === 'Xem chi tiết') {
       this.router.navigate(['/detail', dataItem.QuestionID]);
+      return;
     } else if (action === 'Ngưng hiển thị' || action === 'Ngưng áp dụng') {
-      this.questionService.updateStatus([dataItem], 'Ngưng áp dụng').subscribe(() => {
-        dataItem.StatusName = 'Ngưng áp dụng';
+      newStatus = 'Ngưng áp dụng';
+    }
+    if (newStatus) {
+      this.questionService.updateStatus([dataItem], newStatus).subscribe(() => {
+        dataItem.StatusName = newStatus;
         this.loadData();
+        this.cdr.detectChanges();
       });
     }
+  }
+
+  confirmDelete() {
+    if (this.itemToDelete) {
+      this.questionService.deleteQuestions([this.itemToDelete]).subscribe(() => {
+        this.loadData();
+        this.cancelDelete();
+      });
+    }
+  }
+
+  cancelDelete() {
+    this.showDeleteConfirmation = false;
+    this.itemToDelete = null;
     this.cdr.detectChanges();
+  }
+
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'Đang soạn thảo': return '#23282c';
+      case 'Trả về': return '#ffb900';
+      case 'Gởi duyệt': return '#008cd7';
+      case 'Duyệt áp dụng': return '#316e00';
+      case 'Ngưng áp dụng': return '#eb273a';
+      default: return 'transparent';
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const targetElement = event.target as HTMLElement;
+    if (this.openedRowIndex !== null) {
+      const clickedInsidePopup = this.popupContainer.nativeElement.contains(targetElement);
+      const clickedOnAnchor = this.popupAnchor ? this.popupAnchor.contains(targetElement) : false;
+      if (!clickedInsidePopup && !clickedOnAnchor) {
+        this.openedRowIndex = null;
+        this.cdr.detectChanges();
+      }
+    }
+  }
+  truncateText(text: string, limit: number): string {
+    if (!text) return '';
+    return text.length > limit ? text.substring(0, limit) + '...' : text;
   }
 }

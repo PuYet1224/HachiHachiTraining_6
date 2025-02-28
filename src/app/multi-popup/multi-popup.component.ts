@@ -11,6 +11,7 @@ export class MultiPopupComponent implements OnChanges {
   @Output() popupClosed = new EventEmitter<void>();
   @Output() statusChanged = new EventEmitter<void>();
   allowedActions: string[] = [];
+  showDeleteConfirmation: boolean = false;
 
   constructor(private questionService: QuestionService) {}
 
@@ -74,7 +75,7 @@ export class MultiPopupComponent implements OnChanges {
     );
     if (toUpdate.length) {
       this.questionService.updateStatus(toUpdate, 'Trả về').subscribe(() => {
-        toUpdate.forEach(i => i.StatusName = 'Trả về'); 
+        toUpdate.forEach(i => (i.StatusName = 'Trả về'));
         this.statusChanged.emit();
         this.closePopup();
       });
@@ -98,14 +99,23 @@ export class MultiPopupComponent implements OnChanges {
 
   deleteItem() {
     if (this.selectedItems.length) {
-      this.questionService.deleteQuestions(this.selectedItems).subscribe(() => {
-        this.selectedItems.forEach(i => (i.toDelete = true));
-        this.statusChanged.emit();
-        this.closePopup();
-      });
+      this.showDeleteConfirmation = true;
     } else {
       this.closePopup();
     }
+  }
+
+  confirmDelete() {
+    this.questionService.deleteQuestions(this.selectedItems).subscribe(() => {
+      this.selectedItems.forEach(i => (i.toDelete = true));
+      this.statusChanged.emit();
+      this.closePopup();
+      this.showDeleteConfirmation = false;
+    });
+  }
+
+  cancelDelete() {
+    this.showDeleteConfirmation = false;
   }
 
   closePopup() {

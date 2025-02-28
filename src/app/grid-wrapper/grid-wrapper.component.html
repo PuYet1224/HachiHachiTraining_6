@@ -1,19 +1,27 @@
 <app-header1 #header1 (filterStatuses)="onStatusesChange($event)"></app-header1>
-<app-header2 (searchChanged)="onSearchChange($event)" (resetFilters)="onResetFilters()"></app-header2><app-multi-popup 
-  [selectedItems]="selectedItems" 
-  (popupClosed)="onPopupClose()"
-  (statusChanged)="onStatusChanged()">
-</app-multi-popup>
-
+<app-header2 (searchChanged)="onSearchChange($event)" (resetFilters)="onResetFilters()"></app-header2>
+<app-multi-popup [selectedItems]="selectedItems" (popupClosed)="onPopupClose()" (statusChanged)="onStatusChanged()"></app-multi-popup>
 <div class="grid-wrapper">
   <kendo-grid
-    [data]="gridView.data"
+    [data]="gridView"
+    kendoGridSelectBy="QuestionID"
+    [selectable]="{ checkboxOnly: true }"
     [pageSize]="pageSize"
     [skip]="skip"
-    [scrollable]="'scrollable'"
-    class="grid scrollable grid-custom"
-    style="height: 100%;"
+    [pageable]="{ 
+      buttonCount: 4,
+      pageSizes: pageSizes,
+      previousNext: true,
+      info: true
+    }"
+    [sortable]="false"
+    [groupable]="false"
+    [reorderable]="false"
+    [resizable]="false"
+    [height]="650"
+    (pageChange)="pageChange($event)"
   >
+  
     <kendo-grid-column [width]="50">
       <ng-template kendoGridHeaderTemplate>
         <input type="checkbox" [checked]="allSelected" (change)="toggleAll()" />
@@ -27,7 +35,9 @@
       <ng-template kendoGridCellTemplate let-dataItem>
         <div class="col-name">
           <div class="name-ctn">
-            <div class="remark">{{ dataItem.Remark }}</div>
+            <div class="remark">
+            </div>
+            <div class="remark">{{ truncateText(dataItem.Remark, 50) }}</div>
             <div class="name">{{ dataItem.QuestionID }} | {{ dataItem.TypeOfQuestionName }}</div>
           </div>
         </div>
@@ -40,34 +50,41 @@
       </ng-template>
     </kendo-grid-column>
 
+    <kendo-grid-column field="Duration" title="Thời gian làm" [width]="150">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="duration">{{ dataItem.Duration }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
     <kendo-grid-column field="StatusName" title="Tình Trạng" [width]="150">
       <ng-template kendoGridCellTemplate let-dataItem>
-        {{ dataItem.StatusName }}
+        <span [ngStyle]="{'color': getStatusColor(dataItem.StatusName), 'padding': '2px 5px', 'border-radius': '3px'}">
+          {{ dataItem.StatusName }}
+        </span>
       </ng-template>
     </kendo-grid-column>
 
     <kendo-grid-column title="" [width]="30">
       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
         <div class="action">
-          <button
-            #menuButton
-            kendobutton
-            icon="more-horizontal"
-            class="k-button k-button-icon togglePopup k-icon-button"
-            (click)="toggleMenu(rowIndex, menuButton)"
-          >
+          <button #menuButton kendobutton icon="more-horizontal" class="k-button k-button-icon togglePopup k-icon-button" (click)="toggleMenu(rowIndex, menuButton)">
             <kendo-icon class="k-i-more-horizontal k-button-icon k-icon"></kendo-icon>
           </button>
-          <kendo-popup
-            *ngIf="openedRowIndex === rowIndex"
-            [anchor]="popupAnchor"
-            [popupAlign]="{ vertical: 'bottom', horizontal: 'right' }"
-            [animate]="true"
-            (close)="openedRowIndex = null"
-          >
+          <kendo-popup *ngIf="openedRowIndex === rowIndex" [anchor]="popupAnchor" appendTo="popupContainer" [popupAlign]="{ vertical: 'bottom', horizontal: 'right' }" [animate]="true" (close)="openedRowIndex = null">
             <div class="popup-content">
               <ng-container *ngFor="let action of getActions(dataItem.StatusName)">
-                <button kendoButton class="menu-item" (click)="onActionClick(action, dataItem)">{{ action }}</button>
+                <button kendoButton class="menu-item" (click)="onActionClick(action, dataItem)">
+                  <span class="menu-icon">
+                    <kendo-icon *ngIf="action === 'Chỉnh sửa'" class="k-i-edit"></kendo-icon>
+                    <kendo-icon *ngIf="action === 'Gởi duyệt'" class="k-i-upload"></kendo-icon>
+                    <kendo-icon *ngIf="action === 'Xóa câu hỏi'" class="k-i-trash"></kendo-icon>
+                    <kendo-icon *ngIf="action === 'Phê duyệt'" class="k-i-check"></kendo-icon>
+                    <kendo-icon *ngIf="action === 'Trả về'" class="k-i-undo"></kendo-icon>
+                    <kendo-icon *ngIf="action === 'Xem chi tiết'" class="k-i-eye"></kendo-icon>
+                    <kendo-icon *ngIf="action === 'Ngưng hiển thị' || action === 'Ngưng áp dụng'" class="k-i-minus-outline"></kendo-icon>
+                  </span>
+                  <span class="menu-text">{{ action }}</span>
+                </button>
               </ng-container>
             </div>
           </kendo-popup>
@@ -76,55 +93,14 @@
     </kendo-grid-column>
   </kendo-grid>
 </div>
-
-<div class="custom-pagination" [class.disabled]="disabled">
-  <div class="left-c">
-    <span>Hiển thị mỗi trang</span>
-    <select [value]="pageSize" (change)="onItemsPerPageChangeSelect($event)" [disabled]="disabled">
-      <option *ngFor="let size of pageSizes" [value]="size">
-        {{ size }}
-      </option>
-    </select>
-  </div>
-  <div class="right-c">
-    <button (click)="handleFirst()" [disabled]="currentPage === 1 || disabled" class="arrow-button first-last-button">
-      Đầu
-    </button>
-    <button (click)="handlePrev()" [disabled]="currentPage === 1 || disabled" class="arrow-button">
-      <kendo-icon name="chevron-left"></kendo-icon>
-    </button>
-    <ng-container *ngFor="let page of pages">
-      <button
-        *ngIf="isNumberPage(page)"
-        (click)="goToPage(page)"
-        class="page-button"
-        [class.active]="isActivePage(page)"
-        [disabled]="disabled"
-      >
-        {{ page }}
-      </button>
-      <button
-        *ngIf="isLeftEllipsis(page)"
-        (click)="handleEllipsis('left')"
-        class="ellipsis-button"
-        [disabled]="disabled"
-      >
-        ...
-      </button>
-      <button
-        *ngIf="isRightEllipsis(page)"
-        (click)="handleEllipsis('right')"
-        class="ellipsis-button"
-        [disabled]="disabled"
-      >
-        ...
-      </button>
-    </ng-container>
-    <button (click)="handleNext()" [disabled]="currentPage === totalPages || disabled" class="arrow-button">
-      <kendo-icon name="chevron-right"></kendo-icon>
-    </button>
-    <button (click)="handleLast()" [disabled]="currentPage === totalPages || disabled" class="arrow-button first-last-button">
-      Cuối
-    </button>
-  </div>
-</div>
+<div #popupContainer></div>
+<kendo-dialog *ngIf="showDeleteConfirmation" (close)="cancelDelete()">
+  <kendo-dialog-titlebar>
+    Xác nhận xóa
+  </kendo-dialog-titlebar>
+  <p>Bạn có chắc chắn muốn xóa câu hỏi có ID: {{ itemToDelete?.QuestionID }}?</p>
+  <kendo-dialog-actions>
+    <button kendoButton (click)="confirmDelete()" [primary]="true">Xóa</button>
+    <button kendoButton (click)="cancelDelete()">Hủy</button>
+  </kendo-dialog-actions>
+</kendo-dialog>

@@ -26,3 +26,14 @@
   <div class="divider"></div>
   <div class="box box-btn close-btn" (click)="closePopup()">X</div>
 </div>
+
+<kendo-dialog *ngIf="showDeleteConfirmation" (close)="cancelDelete()">
+  <kendo-dialog-titlebar>
+    Xác nhận xóa
+  </kendo-dialog-titlebar>
+  <p>Bạn có chắc chắn muốn xóa {{ selectedItems.length }} câu hỏi?</p>
+  <kendo-dialog-actions>
+    <button kendoButton (click)="confirmDelete()" [primary]="true">Xóa</button>
+    <button kendoButton (click)="cancelDelete()">Hủy</button>
+  </kendo-dialog-actions>
+</kendo-dialog>

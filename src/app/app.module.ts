@@ -25,7 +25,10 @@ import { EditWrapperComponent } from './edit-wrapper/edit-wrapper.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { MultiPopupComponent } from './multi-popup/multi-popup.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PagerModule } from '@progress/kendo-angular-pager';
+import { DialogModule } from '@progress/kendo-angular-dialog';
 // import { AuthInterceptor } from './helper/auth.interceptor';
+// import { StatusColorPipe } from './pipe/status_color_pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     Header2Component,
     GridWrapperComponent,
     EditWrapperComponent,
-    MultiPopupComponent
+    MultiPopupComponent,
+    // StatusColorPipe
   ],
   imports: [
     ReactiveFormsModule,
@@ -59,7 +63,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     PopupModule,
     DateInputsModule,
     LayoutModule,
-    HttpClientModule
+    HttpClientModule,
+    PagerModule,
+    DialogModule
   ],
   providers: [
     // {
