@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="https://unpkg.com/@progress/kendo-font-icons/dist/index.css"/>
+<app-phan-quyen-header1 #phanQuyenHeader1></app-phan-quyen-header1>
+<app-phan-quyen-header2></app-phan-quyen-header2>
+<kendo-treelist
+  [data]="rootData"
+  [fetchChildren]="fetchChildren"
+  [hasChildren]="hasChildren"
+  [isExpanded]="isExpanded"
+  style="width:350px;"
+  [height]="650"
+>
+  <kendo-treelist-column [expandable]="true" title="Chức năng phân quyền">
+    <ng-template kendoTreeListCellTemplate let-dataItem>
+      {{ dataItem.ActionName || dataItem.Vietnamese || '(No name)' }}
+    </ng-template>
+  </kendo-treelist-column>
+</kendo-treelist>

@@ -8,12 +8,8 @@
     [selectable]="{ checkboxOnly: true }"
     [pageSize]="pageSize"
     [skip]="skip"
-    [pageable]="{ 
-      buttonCount: 4,
-      pageSizes: pageSizes,
-      previousNext: true,
-      info: true
-    }"
+    [loading]="isLoading"
+    [pageable]="{ buttonCount: 4, pageSizes: pageSizes, previousNext: true, info: true }"
     [sortable]="false"
     [groupable]="false"
     [reorderable]="false"
@@ -21,8 +17,7 @@
     [height]="650"
     (pageChange)="pageChange($event)"
   >
-  
-    <kendo-grid-column [width]="50">
+    <kendo-grid-column [width]="15">
       <ng-template kendoGridHeaderTemplate>
         <input type="checkbox" [checked]="allSelected" (change)="toggleAll()" />
       </ng-template>
@@ -30,41 +25,35 @@
         <input type="checkbox" [(ngModel)]="dataItem.selected" (change)="onItemSelectChange(dataItem)" />
       </ng-template>
     </kendo-grid-column>
-
-    <kendo-grid-column title="Câu hỏi" [width]="200">
+    <kendo-grid-column title="Câu hỏi" [width]="100">
       <ng-template kendoGridCellTemplate let-dataItem>
         <div class="col-name">
           <div class="name-ctn">
-            <div class="remark">
-            </div>
+            <div class="remark"></div>
             <div class="remark">{{ truncateText(dataItem.Remark, 50) }}</div>
             <div class="name">{{ dataItem.QuestionID }} | {{ dataItem.TypeOfQuestionName }}</div>
           </div>
         </div>
       </ng-template>
     </kendo-grid-column>
-
-    <kendo-grid-column field="CategoryName" title="Phân nhóm" [width]="150">
+    <kendo-grid-column field="CategoryName" title="Phân nhóm" [width]="80">
       <ng-template kendoGridCellTemplate let-dataItem>
         {{ dataItem.CategoryName }}
       </ng-template>
     </kendo-grid-column>
-
-    <kendo-grid-column field="Duration" title="Thời gian làm" [width]="150">
+    <kendo-grid-column field="Duration" title="Thời gian làm" [width]="80">
       <ng-template kendoGridCellTemplate let-dataItem>
         <div class="duration">{{ dataItem.Duration }}</div>
       </ng-template>
     </kendo-grid-column>
-
-    <kendo-grid-column field="StatusName" title="Tình Trạng" [width]="150">
+    <kendo-grid-column field="StatusName" title="Tình Trạng" [width]="50">
       <ng-template kendoGridCellTemplate let-dataItem>
         <span [ngStyle]="{'color': getStatusColor(dataItem.StatusName), 'padding': '2px 5px', 'border-radius': '3px'}">
           {{ dataItem.StatusName }}
         </span>
       </ng-template>
     </kendo-grid-column>
-
-    <kendo-grid-column title="" [width]="30">
+    <kendo-grid-column title="" [width]="15">
       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
         <div class="action">
           <button #menuButton kendobutton icon="more-horizontal" class="k-button k-button-icon togglePopup k-icon-button" (click)="toggleMenu(rowIndex, menuButton)">
@@ -95,9 +84,7 @@
 </div>
 <div #popupContainer></div>
 <kendo-dialog *ngIf="showDeleteConfirmation" (close)="cancelDelete()">
-  <kendo-dialog-titlebar>
-    Xác nhận xóa
-  </kendo-dialog-titlebar>
+  <kendo-dialog-titlebar>Xác nhận xóa</kendo-dialog-titlebar>
   <p>Bạn có chắc chắn muốn xóa câu hỏi có ID: {{ itemToDelete?.QuestionID }}?</p>
   <kendo-dialog-actions>
     <button kendoButton (click)="confirmDelete()" [primary]="true">Xóa</button>

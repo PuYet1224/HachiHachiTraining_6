@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2023.3.1010/styles/kendo-default-v2.min.css"/>
+<link rel="stylesheet" href="https://unpkg.com/@progress/kendo-font-icons/dist/index.css"/>
+<div class="header header-2" style="position: relative;">
+  <div class="title_filter">
+    <div class="title">
+      <span class="k-font-icon k-i-filter"></span>
+      LỌC DỮ LIỆU
+    </div>
+  </div>
+  <div class="filter_group">
+    <div class="filter_item" style="width: 197px;">
+      <span class="title">Công ty</span>
+      <kendo-dropdownlist 
+      [data]="companies" 
+      [filterable]="true"
+      textField="Bieft" 
+      valueField="CompanyID" 
+      [(ngModel)]="selectedCompany" 
+      placeholder="-- Chọn --">
+    </kendo-dropdownlist>
+    </div>
+    <div class="filter_item" style="width: 197px;">
+      <span class="title">Phân hệ</span>
+      <kendo-dropdowntree
+        kendoDropDownTreeExpandable
+        [kendoDropDownTreeHierarchyBinding]="modules"
+        childrenField="ListGroup"
+        textField="Vietnamese"
+        valueField="Code"
+        [checkable]="true"
+        [(ngModel)]="selectedModules"
+        placeholder="Chọn phân hệ">
+      </kendo-dropdowntree>
+    </div>
+    <div class="filter_item" style="width: 324px;">
+      <span class="title">Bộ phận</span>
+      <kendo-multiselecttree [kendoMultiSelectTreeHierarchyBinding]="departments" childrenField="ListDepartment" textField="Department" valueField="DepartmentID" [(ngModel)]="selectedDepartments" placeholder="Chọn bộ phận"></kendo-multiselecttree>
+    </div>
+    <div class="filter_item" style="width: 324px;">
+      <span class="title">Vai trò</span>
+      <kendo-dropdownlist [data]="roles" textField="RoleName" valueField="RoleID" [(ngModel)]="selectedRole" placeholder="Chọn vai trò"></kendo-dropdownlist>
+    </div>
+  </div>
+</div>

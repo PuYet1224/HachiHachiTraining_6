@@ -291,9 +291,27 @@
   order: 2;
   margin: 0 16px;
 }
+.grid-wrapper .k-grid-pager {
+  position: sticky;
+  bottom: 0;
+  background: #fff; 
+  z-index: 10;
+}
 
 ::ng-deep .k-pager-info {
   order: 3;
   margin-left: auto;
 }
+::ng-deep .k-notification-group {
+  position: fixed !important;
+  bottom: 20px !important;
+  left: 130px !important;
+  right: auto !important;
+  top: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  z-index: 10000 !important;
+}
+
 }

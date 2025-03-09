@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PanelBarExpandMode } from '@progress/kendo-angular-layout';
 import { MenuStateService } from '../services/menu-state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,15 +13,14 @@ export class SidebarComponent implements OnInit {
   public activeParent: string | null = null;
   public selectedChild: string | null = null;
   public isMenuOpen: boolean = true;
-  public currentMode: string = 'NHÂN SỰ';
+  public currentMode: string = 'CẤU HÌNH';
 
-  constructor(private menuStateService: MenuStateService) {}
+  constructor(private menuStateService: MenuStateService, private router: Router) {}
 
   ngOnInit(): void {
     this.menuStateService.mode$.subscribe(mode => {
       this.currentMode = mode;
     });
-
     this.menuStateService.selectedMenu$.subscribe(selectedMenu => {
       if (selectedMenu) {
         this.selectedChild = selectedMenu;
@@ -44,11 +44,17 @@ export class SidebarComponent implements OnInit {
     this.selectedChild = `${parentTitle} > ${childTitle}`;
     this.activeParent = parentTitle;
     this.menuStateService.selectMenu(this.selectedChild);
+    if (parentTitle === 'Quản trị hệ thống' && childTitle === 'Phân quyền') {
+      this.menuStateService.setMode('PHÂN QUYỀN');
+      this.router.navigate(['/phan-quyen-tree']);
+    } else if (parentTitle === 'Hồ sơ nhân sự' && childTitle === 'Thông tin cá nhân') {
+      this.menuStateService.setMode('CẤU HÌNH');
+      this.router.navigate(['/']);
+    }
   }
 
   onParentClick(event: Event, parentTitle: string): void {
     event.stopPropagation();
-    
     if (this.activeParent !== parentTitle) {
       this.activeParent = parentTitle;
     }

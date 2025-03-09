@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'HachiHachiTraining_5';
+  title = 'HachiHachiTraining_7';
   isPersonalInfoSelected = false;
-  currentMode = 'NHÂN SỰ';
+  isPhanQuyenSelected = false;
+  currentMode = 'CẤU HÌNH';
   private subs = new Subscription();
 
   constructor(
@@ -20,9 +21,19 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // Kiểm tra URL khi khởi tạo
+    if (this.router.url.includes('/phan-quyen-tree')) {
+      this.menuStateService.setMode('PHÂN QUYỀN');
+      this.menuStateService.selectMenu('Quản trị hệ thống > Phân quyền');
+    } else {
+      this.menuStateService.setMode('CẤU HÌNH');
+      this.menuStateService.selectMenu('Hồ sơ nhân sự > Thông tin cá nhân');
+    }
+
     this.subs.add(
       this.menuStateService.selectedMenu$.subscribe(selectedMenu => {
         this.isPersonalInfoSelected = (selectedMenu === 'Hồ sơ nhân sự > Thông tin cá nhân');
+        this.isPhanQuyenSelected = (selectedMenu === 'Quản trị hệ thống > Phân quyền');
       })
     );
     this.subs.add(

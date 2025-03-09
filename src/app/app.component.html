@@ -2,9 +2,18 @@
   <app-sidebar></app-sidebar>
   <div class="content">
     <app-headerwide></app-headerwide>
-    <div *ngIf="currentMode === 'NHÂN SỰ'">
+    <div *ngIf="currentMode === 'CẤU HÌNH'">
       <ng-container *ngIf="isPersonalInfoSelected; else blankContent">
-
+        <div class="main-content">
+          <router-outlet></router-outlet>
+        </div>
+      </ng-container>
+      <ng-template #blankContent>
+        <div class="blank-content"></div>
+      </ng-template>
+    </div>
+    <div *ngIf="currentMode === 'PHÂN QUYỀN'">
+      <ng-container *ngIf="isPhanQuyenSelected; else blankContent">
         <div class="main-content">
           <router-outlet></router-outlet>
         </div>

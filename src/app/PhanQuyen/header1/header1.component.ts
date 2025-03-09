@@ -1,13 +1,15 @@
 import { Component, ChangeDetectorRef, Output, EventEmitter, OnInit } from '@angular/core';
+import { QuestionStatus } from '../../HoSoNhanSu/enums/question-status.enum.ts';
 
 @Component({
-  selector: 'app-header1',
+  selector: 'app-phan-quyen-header1',
   templateUrl: './header1.component.html',
   styleUrls: ['./header1.component.scss']
 })
-export class Header1Component implements OnInit {
-  @Output() filterStatuses = new EventEmitter<string[]>();
-  statuses: string[] = ['Đang soạn thảo'];
+export class PhanQuyenHeader1Component implements OnInit {
+  @Output() filterStatuses = new EventEmitter<QuestionStatus[]>();
+  public QuestionStatus = QuestionStatus;
+  statuses: QuestionStatus[] = [QuestionStatus.DANG_SOAN_THAO];
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -15,18 +17,18 @@ export class Header1Component implements OnInit {
     this.filterStatuses.emit(this.statuses);
   }
 
-  isSelected(status: string): boolean {
+  isSelected(status: QuestionStatus): boolean {
     return this.statuses.includes(status);
   }
 
-  toggleImmediate(status: string, event: MouseEvent) {
+  toggleImmediate(status: QuestionStatus, event: MouseEvent) {
     event.preventDefault();
     this.toggle(status);
     this.filterStatuses.emit(this.statuses);
     this.cdr.detectChanges();
   }
 
-  toggle(status: string) {
+  toggle(status: QuestionStatus) {
     if (this.isSelected(status)) {
       this.statuses = this.statuses.filter(s => s !== status);
     } else {
@@ -35,7 +37,7 @@ export class Header1Component implements OnInit {
   }
 
   reset() {
-    this.statuses = ['Đang soạn thảo'];
+    this.statuses = [QuestionStatus.DANG_SOAN_THAO];
     this.filterStatuses.emit(this.statuses);
     this.cdr.detectChanges();
   }

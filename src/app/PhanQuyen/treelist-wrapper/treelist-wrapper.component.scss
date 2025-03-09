@@ -1,0 +1,57 @@
+:host {
+  display: block;
+  .k-treelist {
+    width: 350px;
+    .k-grid-content {
+      height: calc(100% - 58px);
+      overflow: auto;
+    }
+    tr {
+      background-color: #fff !important;
+      border-top: 4px solid #edeff3 !important;
+      border-bottom: 4px solid #edeff3 !important;
+      position: relative !important;
+      height: 58px;
+    }
+  }
+}
+
+:host ::ng-deep .k-treeview {
+  background-color: #f5f5f5;
+  border: none;
+  .k-in {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a2334;
+  }
+  .k-treeview-leaf .k-in {
+    padding-left: 28px;
+  }
+  .k-icon {
+    color: #23282c;
+    font-size: 16px;
+  }
+  .k-item {
+    background-color: #fff;
+    margin: 4px 0;
+    border-radius: 4px;
+    padding: 4px 8px;
+    &:hover {
+      background-color: rgba(123, 169, 142, 0.2);
+    }
+  }
+}
+
+:host ::ng-deep .k-list-container {
+  border: none;
+  .k-list {
+    background-color: transparent;
+  }
+}
+
+:host ::ng-deep .k-grid {
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4285714286;
+  color: #424242;
+}

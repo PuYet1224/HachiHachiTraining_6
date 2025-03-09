@@ -8,22 +8,22 @@
 
     font-size: 13px;
     font-weight: 700;
-    background: #464e61;
+    background: #5c6873;
     letter-spacing: 1px;
-    color: #fff;
+    color: #c8ced3;
 
     .menu-header {
       background-color: #fff;
       display: flex;
       align-items: center;
       justify-content: center; 
-      height: 54px;
+      height: 49px;
       position: relative;
 
       img {
         max-height: 65px;
         position: relative;
-        top: -6px;
+        top: -4px;
         left: -23px;
       }
 
@@ -50,11 +50,12 @@
     transition: none !important;
     font-weight: 700;
   }
-
+  .k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link{
+    color: #c8ced3;
+  }
   .k-panelbar {
     width: 100%;
-    background-color: #464e61 !important;
-    color: #73818f;
+    background: #5c6873;
     padding: 0;
 
     .parent-item {
@@ -65,8 +66,8 @@
         align-items: center;
         justify-content: space-between;
         padding: 0 10px;
-        background-color: #464e61;
-        color: #73818f;
+        background: #5c6873;
+        color: #c8ced3;
         cursor: pointer;
         position: relative;
 
@@ -89,8 +90,7 @@
       }
 
       &.k-expanded > .k-link {
-        background-color: #464e61 !important;
-        color: #73818f !important;
+        background: #5c6873 !important;
 
         .k-icon,
         .k-panelbar-item-icon,
@@ -112,8 +112,7 @@
     }
 
     .k-panelbar-content {
-      background-color: #3b4252;
-
+      background-color: #464e61 !important;
       > .k-panelbar-item-text {
         > .k-link {
           height: 49px;
@@ -121,8 +120,7 @@
           align-items: center;
           justify-content: space-between;
           padding: 0 10px;
-          background-color: #3b4252;
-          cursor: pointer;
+          background-color: #464e61 !important;          cursor: pointer;
           position: relative;
 
           .k-icon,
@@ -172,14 +170,14 @@
 
   .k-panelbar > .k-panelbar-header > .k-link {
     background-color: transparent !important;
-    color: #73818f !important;
+    color: #c8ced3 !important;
     .k-icon,
     .k-panelbar-item-icon {
-      color: #73818f !important;
+      color: #c8ced3 !important;
     }
 
     &:hover {
-      background-color: transparent !important;
+      background-color: #464e61 !important;
       color: #5cb800 !important;
       .k-icon,
       .k-panelbar-item-icon {
@@ -190,11 +188,10 @@
 
   .k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link.k-selected {
     color: #fff;
-    background-color: #3b4252 !important;
-  }
+    background-color: #464e61 !important;  }
 
   .k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link:hover {
-    background-color: transparent;
+    background-color: #464e61 !important;
     cursor: pointer;
     color: #fff !important;
   }
@@ -202,6 +199,7 @@
   .k-panelbar .k-panelbar-group > .k-panelbar-item > .k-link {
     background-color: transparent;
     cursor: pointer;
+    height: 49px;
   }
 
   .k-panelbar {
@@ -209,11 +207,10 @@
       position: relative;
       background-color: #464e61;
       color: #73818f;
-      transition: all 0.3s ease;
     }
 
     .parent-item.has-active-child > .k-link {
-      background-color: #3b4252 !important;
+      background-color: #464e61 !important;
       color: #5cb800 !important;
       font-weight: bold;
     }
@@ -237,7 +234,7 @@
 
     .k-panelbar-item.k-selected > .k-link {
       position: relative;
-      background-color: #3b4252 !important;
+      background-color: #464e61 !important;
       color: #fff !important;
       font-weight: bold;
     }
