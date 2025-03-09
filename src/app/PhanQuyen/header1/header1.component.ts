@@ -1,5 +1,6 @@
 import { Component, ChangeDetectorRef, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionStatus } from '../../HoSoNhanSu/enums/question-status.enum.ts';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-phan-quyen-header1',
@@ -11,10 +12,16 @@ export class PhanQuyenHeader1Component implements OnInit {
   public QuestionStatus = QuestionStatus;
   statuses: QuestionStatus[] = [QuestionStatus.DANG_SOAN_THAO];
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private router: Router) {}
 
   ngOnInit() {
     this.filterStatuses.emit(this.statuses);
+  }
+
+  onBreadcrumbClick(event: any) {
+    if (event.text === 'QUẢN TRỊ HỆ THỐNG') {
+      window.location.reload();
+    }
   }
 
   isSelected(status: QuestionStatus): boolean {

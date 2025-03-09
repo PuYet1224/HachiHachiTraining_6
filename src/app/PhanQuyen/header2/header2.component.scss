@@ -90,5 +90,15 @@
   color: #fff !important;
   background-color: #1a663480 !important;
 }
+.k-picker-solid:hover, .k-picker-solid.k-hover {
+  filter: brightness(1.1);
+}
+.k-input-solid:focus-within {
+  border-color: none;
+  box-shadow: none;
+}
+.k-input-solid:hover, .k-input-solid.k-hover {
+  filter: brightness(1.1);
+}
   }
 }

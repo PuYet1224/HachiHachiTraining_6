@@ -34,7 +34,15 @@
     </div>
     <div class="filter_item" style="width: 324px;">
       <span class="title">Bộ phận</span>
-      <kendo-multiselecttree [kendoMultiSelectTreeHierarchyBinding]="departments" childrenField="ListDepartment" textField="Department" valueField="DepartmentID" [(ngModel)]="selectedDepartments" placeholder="Chọn bộ phận"></kendo-multiselecttree>
+      <kendo-multiselecttree 
+      [kendoMultiSelectTreeHierarchyBinding]="departments" 
+      childrenField="ListDepartment" 
+      textField="Department" 
+      valueField="DepartmentID" 
+      [(ngModel)]="selectedDepartments" 
+      [filterable]="true"
+      placeholder="Chọn bộ phận">
+    </kendo-multiselecttree>
     </div>
     <div class="filter_item" style="width: 324px;">
       <span class="title">Vai trò</span>
