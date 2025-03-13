@@ -1,14 +1,97 @@
-body
-{
+body {
   margin: 0;
   background: #f5f5f6;
   overflow: hidden;
-  $primary-font: "Mulish",Arial, sans-serif !important;
+  $primary-font: "Mulish", sans-serif !important;
 }
-app-root{
+
+app-root {
   display: flex;
 }
 
-:root{
+:root {
   --kendo-color-primary: #1a6634;
+}
+
+.k-list-item.k-selected:hover,
+.k-selected.k-list-optionlabel:hover,
+.k-list-item.k-selected.k-hover,
+.k-selected.k-hover.k-list-optionlabel {
+  background-color: #1a6634 !important;
+  filter: brightness(1.1);
+}
+
+.k-list-item:focus,
+.k-list-optionlabel:focus,
+.k-list-item.k-focus,
+.k-focus.k-list-optionlabel {
+  box-shadow: none;
+}
+
+.k-list-item:hover,
+.k-list-optionlabel:hover,
+.k-list-item.k-hover,
+.k-hover.k-list-optionlabel {
+  color: #fff;
+  background-color: #1a6634;
+}
+
+.k-grid .k-grid-header .k-table-th:first-child {
+  font-family: "Mulish", sans-serif !important;
+  background: #fff;
+  text-align: center;
+  line-height: 40px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.k-grid .k-table {
+  border-collapse: separate;
+  border-spacing: 0 8px; 
+  background: transparent;
+}
+
+.k-grid .k-table-row {
+  background-color: #fff !important;
+  border: none !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  height: 58px;
+}
+
+.k-grid .k-table-row:hover {
+  background-color: #fff !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+}
+
+.k-grid td:first-child {
+  background-color: rgba(26, 102, 52, 0.2) !important;
+}
+.k-grid td:first-child:hover {
+  background-color: #1a663480 !important;
+}
+
+.k-treeview .k-item {
+  background-color: #fff;
+  margin: 4px 0;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+.k-treeview .k-item:hover {
+  background-color: rgba(123, 169, 142, 0.2);
+}
+.k-grid .k-grid-header .k-table-th:hover {
+  background-color: #1a663480;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.k-grid .k-table-row:hover {
+  background-color: #1a663454 !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+}
+
+.k-grid-header {
+  background-color: #f5f5f5 !important;
+}
+.k-grid-header-wrap{
+  background-color: #fafafa !important;
 }

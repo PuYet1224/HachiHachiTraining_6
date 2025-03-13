@@ -1,17 +1,72 @@
-<link rel="stylesheet" href="https://unpkg.com/@progress/kendo-font-icons/dist/index.css"/>
-<app-phan-quyen-header1 #phanQuyenHeader1></app-phan-quyen-header1>
-<app-phan-quyen-header2></app-phan-quyen-header2>
-<kendo-treelist
-  [data]="rootData"
-  [fetchChildren]="fetchChildren"
-  [hasChildren]="hasChildren"
-  [isExpanded]="isExpanded"
-  style="width:350px;"
-  [height]="650"
->
-  <kendo-treelist-column [expandable]="true" title="Chức năng phân quyền">
-    <ng-template kendoTreeListCellTemplate let-dataItem>
-      {{ dataItem.ActionName || dataItem.Vietnamese || '(No name)' }}
-    </ng-template>
-  </kendo-treelist-column>
-</kendo-treelist>
+<app-phan-quyen-header1></app-phan-quyen-header1>
+<app-phan-quyen-header2
+  (modulesSelected)="onModulesSelected($event)"
+  (rolesSelected)="onRolesSelected($event)"
+  (departmentsSelected)="onDepartmentsSelected($event)"
+></app-phan-quyen-header2>
+
+<div style="width: 100%; overflow-x: auto;">
+  <kendo-treelist
+    [data]="rootData"
+    [fetchChildren]="fetchChildren"
+    [hasChildren]="hasChildren"
+    [isExpanded]="isExpanded"
+    kendoTreeListExpandable
+    [resizable]="true"
+    [height]="650"
+    style="border: none; margin-top: 10px;"
+    class="my-custom-treelist"
+  >
+    <kendo-treelist-column
+      [expandable]="true"
+      title="Chức năng phân quyền"
+      [width]="350"
+      [locked]="true"
+    >
+      <ng-template kendoTreeListCellTemplate let-dataItem>
+        {{ dataItem.ActionName || dataItem.Vietnamese || '(No name)' }}
+      </ng-template>
+    </kendo-treelist-column>
+    <kendo-treelist-column
+      title=""
+      [width]="1"
+    >
+      <ng-template kendoTreeListCellTemplate let-dataItem>
+      </ng-template>
+    </kendo-treelist-column>
+    <kendo-treelist-column
+      *ngFor="let r of selectedRoles"
+      [title]="r.RoleName"
+      [width]="164"
+    >
+      <ng-template kendoTreeListHeaderTemplate>
+        <div style="text-align:center; width:164px; height:75px; overflow:hidden;">
+          <div>{{ r.RoleID }}</div>
+          <div>{{ r.RoleName }}</div>
+        </div>
+      </ng-template>
+      <ng-template kendoTreeListCellTemplate let-dataItem>
+        <div style="display:flex; align-items:center; justify-content:center; width:164px; height:50px; overflow:hidden;">
+          <input type="checkbox" *ngIf="isAction(dataItem)" />
+        </div>
+      </ng-template>
+    </kendo-treelist-column>
+    <kendo-treelist-column
+      *ngFor="let d of selectedDepartments"
+      [title]="d.Department"
+      [width]="164"
+    >
+      <ng-template kendoTreeListHeaderTemplate>
+        <div style="text-align:center; width:164px; height:75px; overflow:hidden;">
+          <div>{{ d.DepartmentID }}</div>
+          <div>{{ d.Department }}</div>
+        </div>
+      </ng-template>
+      <ng-template kendoTreeListCellTemplate let-dataItem>
+        <div style="display:flex; align-items:center; justify-content:center; width:164px; height:50px; overflow:hidden;">
+          <input type="checkbox" *ngIf="isAction(dataItem)" />
+        </div>
+      </ng-template>
+    </kendo-treelist-column>
+  </kendo-treelist>
+</div>

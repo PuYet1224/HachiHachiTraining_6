@@ -1,22 +1,23 @@
 export interface DepartmentDTO {
-    Brieft: string;
-    Code: number;
-    Company: number;
-    Department: string;
-    DepartmentID: string;
-    Fax: string;
-    IsTree: boolean;
-    ListDepartment: DepartmentDTO[]; 
-    ListLocation: any[];           
-    ListLocationCode: string;
-    ListPosition: PositionDTO[];    
-    ParentCode: string;
-    ParentID: number | null;
-    Phone: string;
-    Remark: string;
-    StatusID: number;
-    StatusName: string;
-  }
+  Brieft: string | null;
+  Code: number;
+  Company: number;
+  Department: string;
+  DepartmentID: string;
+  Fax: string | null;
+  IsTree: boolean;
+  ListDepartment: DepartmentDTO[];
+  ListLocation: any[];
+  ListLocationCode: string | null;
+  ListPosition: PositionDTO[];
+  ParentCode: string | null;
+  ParentID: number | null;
+  Phone: string | null;
+  Remark: string | null;
+  StatusID: number;
+  StatusName: string;
+}
+
   
   export interface PositionDTO {
     DepartmentCode?: string | null;

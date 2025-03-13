@@ -1,5 +1,6 @@
 ::ng-deep{
   app-phan-quyen-header2{
+    font-family: 'Mulish', sans-serif;
 .header {
   display: flex;
   align-items: center;
@@ -7,7 +8,6 @@
   padding: 9px 0;
   margin-bottom: 0;
   border-bottom: 1px solid rgba(143, 155, 166, 0.4);
-  font-family: 'Mulish', Arial, sans-serif;
   font-size: 13px;
   height: 74.5px;
 }
@@ -65,7 +65,7 @@
 }
 
 .filter_item .title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   margin-bottom: 5px;
   white-space: nowrap;
@@ -81,24 +81,19 @@
   box-shadow: 1px 3px 6px 1px #8f9ba633;
   background: white;
   display: flex;
+
 }
 
 .k-picker-solid:focus, .k-picker-solid.k-focus {
   border: 1px solid #1a6634 !important; 
 }
-.k-list-item.k-selected:hover{
-  color: #fff !important;
-  background-color: #1a663480 !important;
-}
+
 .k-picker-solid:hover, .k-picker-solid.k-hover {
   filter: brightness(1.1);
 }
 .k-input-solid:focus-within {
   border-color: none;
   box-shadow: none;
-}
-.k-input-solid:hover, .k-input-solid.k-hover {
-  filter: brightness(1.1);
 }
   }
 }
