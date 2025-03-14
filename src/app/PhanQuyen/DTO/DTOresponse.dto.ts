@@ -1,5 +1,5 @@
-export type ResponseDTO = {
-  StatusCode:	number | null;
+export interface ResponseDTO {
+  StatusCode: number | null;
   ErrorString: string | null;
   ObjectReturn: any | null;
-};
+}

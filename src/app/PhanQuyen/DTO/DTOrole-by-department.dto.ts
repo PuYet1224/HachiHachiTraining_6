@@ -1,18 +1,18 @@
-import { PositionDTO } from './DTOdepartment.dto';
+import { DepartmentDTO } from './DTOdepartment.dto';
 
 export interface RoleByDepartmentRequest {
   Brieft: string | null;
   Code: number | null;
   Company: number | null;
-  Config: any;
+  Config?: any;
   Department: string;
   DepartmentID: string;
   Fax: string | null;
   IsTree: boolean;
-  ListDepartment: any[];
+  ListDepartment: DepartmentDTO[]; 
   ListLocation: any[];
   ListLocationCode: string | null;
-  ListPosition: PositionDTO[];
+  ListPosition: any[]; 
   ParentCode: string | null;
   ParentID: number | null;
   Phone: string | null;
@@ -27,7 +27,7 @@ export interface RoleByDepartmentResponse {
   Department: string;
   DepartmentID: string;
   IsTree: boolean;
-  ListPosition: PositionDTO[];
+  ListPosition: any[]; 
   ParentCode: string | null;
   ParentID: number | null;
   StatusID: number;

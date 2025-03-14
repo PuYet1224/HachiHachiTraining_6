@@ -3,6 +3,11 @@ import { DecentralizationService } from '../../services/decentralization.service
 import { SysStructurePermissionTreeDTO } from '../DTO/DTOsys-structure-permission-tree.dto';
 import { RoleDTO } from '../DTO/DTOrole.dto';
 import { DepartmentDTO } from '../DTO/DTOdepartment.dto';
+import { ModuleTreeDTO } from '../DTO/DTOmodule-tree.dto';
+
+interface ExtendedTreeNode extends SysStructurePermissionTreeDTO {
+  children?: ExtendedTreeNode[];
+}
 
 @Component({
   selector: 'app-treelist-wrapper',
@@ -10,42 +15,74 @@ import { DepartmentDTO } from '../DTO/DTOdepartment.dto';
   styleUrls: ['./treelist-wrapper.component.scss']
 })
 export class TreeListWrapperComponent implements OnInit {
+  isLoading = false;
+  deptRoleColumns: RoleDTO[] = [];
+  globalRoleColumns: RoleDTO[] = [];
+  allRoleColumns: RoleDTO[] = [];
+  combinedRoleColumns: RoleDTO[] = [];
   selectedRoles: RoleDTO[] = [];
   selectedDepartments: DepartmentDTO[] = [];
-  modules: any[] = [];
-  fullData: SysStructurePermissionTreeDTO[] = [];
-  rootData: SysStructurePermissionTreeDTO[] = [];
+  modules: ModuleTreeDTO[] = [];
+  fullData: ExtendedTreeNode[] = [];
+  rootData: ExtendedTreeNode[] = [];
+  selectedRolePermissions: { role: RoleDTO, permission: SysStructurePermissionTreeDTO }[] = [];
 
   constructor(private service: DecentralizationService) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     const req = { Company: 1 };
     this.service.getSysStructurePermissionTree(req).subscribe(res => {
       if (res.StatusCode === 0 && res.ObjectReturn) {
-        this.fullData = res.ObjectReturn;
+        this.fullData = this.transformTree(res.ObjectReturn);
         this.rootData = [...this.fullData];
       } else {
         this.fullData = [];
         this.rootData = [];
       }
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
   }
 
-  onModulesSelected(mods: any[]): void {
-    this.modules = mods;
+  onModulesSelected(mods: any): void {
+    this.modules = Array.isArray(mods) ? mods : [mods];
     this.applyModuleFilter();
+    // Không cần lọc cột theo module, giữ nguyên các cột hiện có
+    this.combinedRoleColumns = this.allRoleColumns;
   }
+  
 
   onRolesSelected(roles: RoleDTO[]): void {
-    this.selectedRoles = roles || [];
+    this.globalRoleColumns = roles || [];
+    this.combineRoleColumns();
   }
 
   onDepartmentsSelected(depts: DepartmentDTO[]): void {
     this.selectedDepartments = depts || [];
   }
 
+  onDeptRolesSelected(deptRoles: RoleDTO[]): void {
+    this.deptRoleColumns = deptRoles || [];
+    this.combineRoleColumns();
+  }
+
+  combineRoleColumns(): void {
+    this.allRoleColumns = [...this.deptRoleColumns, ...this.globalRoleColumns];
+    // Luôn hiển thị tất cả các cột (RoleID, RoleName, …)
+    this.combinedRoleColumns = this.allRoleColumns;
+  }
+  
+
+  filterColumnsByModule(): void {
+    // Không lọc, chỉ gán lại
+    this.combinedRoleColumns = this.allRoleColumns;
+  }
+  
+  
   applyModuleFilter(): void {
-    if (!this.modules || !this.modules.length) {
+    if (!this.modules || this.modules.length === 0 || this.modules.some(m => m.Code === -1)) {
       this.rootData = [...this.fullData];
       return;
     }
@@ -53,23 +90,47 @@ export class TreeListWrapperComponent implements OnInit {
     this.rootData = this.fullData.filter(item => selectedCodes.includes(item.Code));
   }
 
-  isAction(node: any): boolean {
+  transformTree(nodes: SysStructurePermissionTreeDTO[]): ExtendedTreeNode[] {
+    return nodes.map(node => {
+      const children = [
+        ...(node.ListGroup ? this.transformTree(node.ListGroup) : []),
+        ...(node.ListFunctions ? this.transformTree(node.ListFunctions) : []),
+        ...(node.ListAction ? this.transformTree(node.ListAction) : [])
+      ];
+      return { ...node, children } as ExtendedTreeNode;
+    });
+  }
+
+  isAction(node: SysStructurePermissionTreeDTO): boolean {
     return !!node.ActionName;
   }
 
-  hasChildren(node: SysStructurePermissionTreeDTO): boolean {
-    return !!(node.ListGroup?.length || node.ListFunctions?.length || node.ListAction?.length);
+  fetchChildren(node: ExtendedTreeNode): ExtendedTreeNode[] {
+    return node.children || [];
   }
 
-  fetchChildren(node: SysStructurePermissionTreeDTO): SysStructurePermissionTreeDTO[] {
-    return [
-      ...(node.ListGroup || []),
-      ...(node.ListFunctions || []),
-      ...(node.ListAction || [])
-    ];
+  hasChildren(node: ExtendedTreeNode): boolean {
+    return !!(node.children && node.children.length);
   }
 
-  isExpanded(_: SysStructurePermissionTreeDTO): boolean {
+  isExpanded(_: ExtendedTreeNode): boolean {
     return true;
+  }
+
+  onRoleCellClick(permission: SysStructurePermissionTreeDTO, role: RoleDTO): void {
+    const index = this.selectedRolePermissions.findIndex(
+      item => item.role.RoleID === role.RoleID && item.permission.Code === permission.Code
+    );
+    if (index > -1) {
+      this.selectedRolePermissions.splice(index, 1);
+    } else {
+      this.selectedRolePermissions.push({ role, permission });
+    }
+  }
+
+  isPermissionSelected(permission: SysStructurePermissionTreeDTO, role: RoleDTO): boolean {
+    return !!this.selectedRolePermissions.find(
+      item => item.role.RoleID === role.RoleID && item.permission.Code === permission.Code
+    );
   }
 }

@@ -6,7 +6,7 @@ export interface DepartmentDTO {
   DepartmentID: string;
   Fax: string | null;
   IsTree: boolean;
-  ListDepartment: DepartmentDTO[];
+  ListDepartment: DepartmentDTO[]; 
   ListLocation: any[];
   ListLocationCode: string | null;
   ListPosition: PositionDTO[];
@@ -18,28 +18,26 @@ export interface DepartmentDTO {
   StatusName: string;
 }
 
-  
-  export interface PositionDTO {
-    DepartmentCode?: string | null;
-    DepartmentName?: string | null;
-    ReportToCode?: string | null;
-    GroupPositionCode?: string | null;
-    StatusName: string;
-    ListChild?: any;
-    ListLocation?: any;
-    NoOfStaff: number;
-    Code: number;
-    PositionID: string;
-    Position: string;
-    IsLeader: boolean;
-    IsSupervivor: boolean;
-    DepartmentID: number | string;
-    ReportTo: number | string;
-    GroupPosition?: any;
-    Remark?: string | null;
-    OrderBy: number;
-    ListOfRoles?: string | null;
-    Config?: any;
-    StatusID: number;
-  }
-  
+export interface PositionDTO {
+  DepartmentCode?: string | null;
+  DepartmentName?: string | null;
+  ReportToCode?: string | null;
+  GroupPositionCode?: string | null;
+  StatusName: string;
+  ListChild?: any;
+  ListLocation?: any;
+  NoOfStaff: number;
+  Code: number;
+  PositionID: string;
+  Position: string;
+  IsLeader: boolean;
+  IsSupervivor: boolean;
+  DepartmentID: number | string;
+  ReportTo: number | string;
+  GroupPosition?: any;
+  Remark?: string | null;
+  OrderBy: number;
+  ListOfRoles?: string | null;
+  Config?: any; 
+  StatusID: number;
+}

@@ -11,54 +11,57 @@
       <kendo-dropdownlist
         [data]="companyList"
         [filterable]="true"
+        [loading]="isLoading"
         textField="Bieft"
         valueField="CompanyID"
         [(ngModel)]="selectedCompany"
         [valuePrimitive]="true"
-        placeholder="-- Chọn --"
-      >
+        placeholder="-- Chọn --">
       </kendo-dropdownlist>
     </div>
     <div class="filter_item" style="width:197px;">
       <span class="title">Phân hệ</span>
       <kendo-dropdowntree
         kendoDropDownTreeExpandable
+        [autoClose]="true"
+        [filterable]="true"
         [kendoDropDownTreeHierarchyBinding]="modules"
         childrenField="ListGroup"
+        [loading]="isLoading"
         textField="Vietnamese"
         valueField="Code"
-        [checkable]="true"
+        [checkable]="false"
         [(ngModel)]="selectedModules"
-        placeholder="Chọn phân hệ"
-        (valueChange)="moduleChange($event)"
-      >
+        (valueChange)="moduleChange($event)">
       </kendo-dropdowntree>
     </div>
     <div class="filter_item" style="width:324px;">
       <span class="title">Bộ phận</span>
       <kendo-multiselecttree
+        kendoMultiSelectTreeExpandable
+        [autoClose]="true"
         [kendoMultiSelectTreeHierarchyBinding]="departments"
         childrenField="ListDepartment"
+        [loading]="isLoading"
         textField="Department"
         valueField="DepartmentID"
         [(ngModel)]="selectedDepartments"
         [filterable]="true"
         placeholder="Chọn bộ phận"
-        (valueChange)="departmentChange($event)"
-      >
+        (valueChange)="departmentChange($event)">
       </kendo-multiselecttree>
     </div>
     <div class="filter_item" style="width:324px;">
       <span class="title">Vai trò</span>
       <kendo-multiselect
-        [data]="roles"
+        [data]="allRoles"
+        [loading]="isLoading"
         textField="RoleName"
         valueField="RoleID"
         [(ngModel)]="selectedRoles"
         [filterable]="true"
         placeholder="Chọn vai trò"
-        (valueChange)="rolesChange($event)"
-      >
+        (valueChange)="rolesChange($event)">
       </kendo-multiselect>
     </div>
   </div>
