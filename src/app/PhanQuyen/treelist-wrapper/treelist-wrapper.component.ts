@@ -4,6 +4,7 @@ import { SysStructurePermissionTreeDTO } from '../DTO/DTOsys-structure-permissio
 import { RoleDTO } from '../DTO/DTOrole.dto';
 import { DepartmentDTO } from '../DTO/DTOdepartment.dto';
 import { ModuleTreeDTO } from '../DTO/DTOmodule-tree.dto';
+import { fakeData } from '../../fake-data';
 
 interface ExtendedTreeNode extends SysStructurePermissionTreeDTO {
   children?: ExtendedTreeNode[];
@@ -16,6 +17,7 @@ interface ExtendedTreeNode extends SysStructurePermissionTreeDTO {
 })
 export class TreeListWrapperComponent implements OnInit {
   isLoading = false;
+  expandedKeys: any[] = [];
   deptRoleColumns: RoleDTO[] = [];
   globalRoleColumns: RoleDTO[] = [];
   allRoleColumns: RoleDTO[] = [];
@@ -36,6 +38,8 @@ export class TreeListWrapperComponent implements OnInit {
       if (res.StatusCode === 0 && res.ObjectReturn) {
         this.fullData = this.transformTree(res.ObjectReturn);
         this.rootData = [...this.fullData];
+        this.expandedKeys = [];
+        this.populateExpandedKeys(this.fullData);
       } else {
         this.fullData = [];
         this.rootData = [];
@@ -46,14 +50,23 @@ export class TreeListWrapperComponent implements OnInit {
     });
   }
 
+  populateExpandedKeys(nodes: ExtendedTreeNode[]): void {
+    for (const node of nodes) {
+      if (node.Code !== undefined) {
+        this.expandedKeys.push(node.Code);
+      }
+      if (node.children && node.children.length) {
+        this.populateExpandedKeys(node.children);
+      }
+    }
+  }
+
   onModulesSelected(mods: any): void {
     this.modules = Array.isArray(mods) ? mods : [mods];
     this.applyModuleFilter();
-    // Không cần lọc cột theo module, giữ nguyên các cột hiện có
     this.combinedRoleColumns = this.allRoleColumns;
   }
   
-
   onRolesSelected(roles: RoleDTO[]): void {
     this.globalRoleColumns = roles || [];
     this.combineRoleColumns();
@@ -69,17 +82,15 @@ export class TreeListWrapperComponent implements OnInit {
   }
 
   combineRoleColumns(): void {
-    this.allRoleColumns = [...this.deptRoleColumns, ...this.globalRoleColumns];
-    // Luôn hiển thị tất cả các cột (RoleID, RoleName, …)
+    const deptSorted = this.deptRoleColumns.sort((a, b) => a.RoleName.localeCompare(b.RoleName));
+    const globalSorted = this.globalRoleColumns.sort((a, b) => a.RoleName.localeCompare(b.RoleName));
+    this.allRoleColumns = [...deptSorted, ...globalSorted];
     this.combinedRoleColumns = this.allRoleColumns;
   }
   
-
   filterColumnsByModule(): void {
-    // Không lọc, chỉ gán lại
     this.combinedRoleColumns = this.allRoleColumns;
   }
-  
   
   applyModuleFilter(): void {
     if (!this.modules || this.modules.length === 0 || this.modules.some(m => m.Code === -1)) {

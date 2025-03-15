@@ -81,7 +81,6 @@
       display: flex;
       flex-direction: column;
       overflow-y: auto;
-
     }
 
     .filter_item .title {
@@ -106,7 +105,7 @@
       display: flex;
       align-items: center;
       overflow-y: auto;
-
+      font-family: 'Mulish', sans-serif;
     }
 
     .k-picker-solid:focus,
@@ -125,7 +124,38 @@
     }
   }
 }
+
 ::ng-deep .disable-checkbox input[type="checkbox"],
 ::ng-deep .disable-checkbox .k-checkbox-wrapper {
   display: none;
+}
+::ng-deep .k-treeview-toggle .k-svg-i-caret-alt-down::before {
+  content: "\e015";
+  font-family: "WebComponentsIcons";
+  font-size: 16px;
+  color: #424242;
+}
+
+::ng-deep .k-treeview-toggle .k-svg-i-caret-alt-right::before {
+  content: "\e014";
+  font-family: "WebComponentsIcons";
+  font-size: 16px;
+  color: #424242;
+}
+:host ::ng-deep .tree-icon {
+  position: relative;
+  padding-left: 20px; 
+}
+
+:host ::ng-deep .tree-icon::before {
+  content: "";
+  position: absolute;
+  left: 0; 
+  top: 50%; 
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-image: url("/assets/images/flowchart.png"); 
+  background-repeat: no-repeat;
+  background-size: contain; 
 }

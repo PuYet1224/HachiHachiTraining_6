@@ -33,7 +33,8 @@ import { PhanQuyenHeader2Component } from './PhanQuyen/header2/header2.component
 import { TreeListWrapperComponent } from './PhanQuyen/treelist-wrapper/treelist-wrapper.component';
 import { TreeListModule } from '@progress/kendo-angular-treelist';
 import { MultiSelectModule } from '@progress/kendo-angular-dropdowns';
-
+import { TooltipDirective } from './PhanQuyen/directives/tooltip.directive';
+import { GroupByAlphabetPipe } from './PhanQuyen/pipes/groupbyalphabet.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,9 @@ import { MultiSelectModule } from '@progress/kendo-angular-dropdowns';
     MultiPopupComponent,
     PhanQuyenHeader1Component,
     PhanQuyenHeader2Component,
-    TreeListWrapperComponent
+    TreeListWrapperComponent,
+    TooltipDirective,
+    GroupByAlphabetPipe
   ],
   imports: [
     ReactiveFormsModule,

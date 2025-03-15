@@ -1,5 +1,6 @@
 :host {
   display: block;
+  font-family: "Mulish", sans-serif !important;
 }
 :host ::ng-deep .k-treelist {
   width: 100% !important;
@@ -83,4 +84,48 @@
 .k-grid .k-grid-content tr:hover td {
   background-color: #f5f5f5 !important;
 }
+
+:host ::ng-deep td.k-table-td[aria-colindex="1"] {
+  display: flex;
+  align-items: center;
+  height: 35px;
+}
+
+:host ::ng-deep td.k-table-td[aria-colindex="1"] .custom-icon {
+  content: "";
+  background-image: url("/assets/images/flowchart.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+:host ::ng-deep .k-svg-i-caret-alt-down::before {
+  content: "\e015";
+  font-family: "WebComponentsIcons";
+  font-size: 16px;
+}
+
+:host ::ng-deep .k-svg-i-caret-alt-right::before {
+  content: "\e014";
+  font-family: "WebComponentsIcons";
+  font-size: 16px;
+}
+
+:host ::ng-deep .k-grid-header .k-header span[appTooltip] {
+  display: flex !important;              
+  flex-direction: column;                
+  justify-content: center;               
+  width: 140px;
+  height: 75px;
+  gap: 1em;                             
+  overflow: visible !important;      
+  font-weight: 700;
+  font-size: 13px;   
+}
+
+
+
 

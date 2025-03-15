@@ -11,6 +11,7 @@ app-root {
 
 :root {
   --kendo-color-primary: #1a6634;
+  font-family: 'Mulish', sans-serif;
 }
 
 .k-list-item.k-selected:hover,
@@ -47,8 +48,7 @@ app-root {
 
 .k-grid .k-table {
   border-collapse: separate;
-  border-spacing: 0 8px; 
-  background: transparent;
+  background: #fff;
 }
 
 .k-grid .k-table-row {
@@ -94,4 +94,75 @@ app-root {
 }
 .k-grid-header-wrap{
   background-color: #fafafa !important;
+}
+.k-chip-solid-base {
+  background-color: #fff;
+  &:hover{
+    border: 1px solid #EB273A;
+    background-color: transparent;
+  }
+}
+.k-grid td, .k-grid .k-table-td {
+  text-align: center;
+}
+.k-input-solid:focus, .k-input-solid.k-focus {
+  border-color: #1a6634;
+}
+
+.k-treeview-leaf:hover{
+  color: #fff;
+  background-color: transparent;
+}
+.k-treeview-leaf:focus, .k-treeview-leaf.k-focus {
+  box-shadow: none;
+  color: #424242;  
+}
+.k-treeview-leaf.k-selected {
+  color: #424242;  
+  background-color: transparent;
+  &:hover{
+    color:#fff;
+  }
+}
+
+.k-treeview-top:hover{
+  background-color: #1a663480;
+  color: #fff;
+}
+.k-treeview-top:focus{
+  background-color: #1a663480;
+  color: #fff;
+}
+.k-svg-i-caret-alt-down svg,
+.k-svg-i-caret-alt-right svg {
+  display: none !important;
+}
+.k-checkbox-wrap{
+  display: none;
+}
+.k-treeview-mid:focus {
+  background-color: #1a663480;
+  color: #fff;
+}
+.k-treeview-mid:hover {
+  background-color: #1a663480;
+  color: #fff;
+}
+.k-treeview-bot:focus {
+  background-color: #1a663480;
+  color: #fff;
+}
+.k-treeview-bot:hover {
+  background-color: #1a663480;
+  color: #fff;
+}
+
+:host ::ng-deep .k-treeview {
+  background-color: #fff;
+}
+.k-treeview-mid{
+  color: #424242;
+}
+.k-clear-value{
+  display: none;
 }

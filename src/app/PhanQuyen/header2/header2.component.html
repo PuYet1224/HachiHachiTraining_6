@@ -1,12 +1,12 @@
 <div class="header header-2" style="position: relative;">
   <div class="title_filter">
-    <div class="title">
+    <div class="title" appTooltip>
       <span class="k-font-icon k-i-filter"></span>
       LỌC DỮ LIỆU
     </div>
   </div>
   <div class="filter_group">
-    <div class="filter_item" style="width:197px;">
+    <div class="filter_item" style="width:197px;" appTooltip>
       <span class="title">Công ty</span>
       <kendo-dropdownlist
         [data]="companyList"
@@ -16,10 +16,14 @@
         valueField="CompanyID"
         [(ngModel)]="selectedCompany"
         [valuePrimitive]="true"
-        placeholder="-- Chọn --">
+        placeholder="-- Chọn --"
+        [groupBy]="'firstLetter'">
+        <ng-template kendoDropDownListGroupTemplate let-groupName>
+          {{ groupName }}
+        </ng-template>
       </kendo-dropdownlist>
     </div>
-    <div class="filter_item" style="width:197px;">
+    <div class="filter_item" style="width:197px;" appTooltip>
       <span class="title">Phân hệ</span>
       <kendo-dropdowntree
         kendoDropDownTreeExpandable
@@ -32,10 +36,11 @@
         valueField="Code"
         [checkable]="false"
         [(ngModel)]="selectedModules"
+        placeholder="Tất cả"
         (valueChange)="moduleChange($event)">
       </kendo-dropdowntree>
     </div>
-    <div class="filter_item" style="width:324px;">
+    <div class="filter_item" style="width:324px;" appTooltip>
       <span class="title">Bộ phận</span>
       <kendo-multiselecttree
         kendoMultiSelectTreeExpandable
@@ -51,7 +56,7 @@
         (valueChange)="departmentChange($event)">
       </kendo-multiselecttree>
     </div>
-    <div class="filter_item" style="width:324px;">
+    <div class="filter_item" style="width:324px;" appTooltip>
       <span class="title">Vai trò</span>
       <kendo-multiselect
         [data]="allRoles"
@@ -61,7 +66,11 @@
         [(ngModel)]="selectedRoles"
         [filterable]="true"
         placeholder="Chọn vai trò"
+        [groupBy]="'firstLetter'"
         (valueChange)="rolesChange($event)">
+        <ng-template kendoMultiselectGroupTemplate let-groupName>
+          {{ groupName }}
+        </ng-template>
       </kendo-multiselect>
     </div>
   </div>

@@ -60,6 +60,7 @@ export class PhanQuyenHeader2Component implements OnInit {
       logic: 'and',
       filters: [{ field: 'Company', operator: 'eq', value: 1 }] as FilterDescriptor[]
     };
+
     forkJoin({
       companies: this.service.getListCompany(companyReq),
       modules: this.service.getModuleTree(moduleReq),
@@ -90,25 +91,17 @@ export class PhanQuyenHeader2Component implements OnInit {
       this.selectedCompany = c ? c.CompanyID : '';
       const resModules: ResponseDTO = results.modules;
       if (resModules.StatusCode === 0 && resModules.ObjectReturn) {
-        // Thêm option "Tất cả" làm mặc định
-        this.modules = [{
+        const allItem: ModuleTreeDTO = {
           Company: 0,
           Code: -1,
-          ModuleID: "-1",
+          ModuleID: '-1',
           Vietnamese: 'Tất cả',
           OrderBy: 0,
           IsVisible: true,
           ListGroup: []
-        }, ...resModules.ObjectReturn as ModuleTreeDTO[]];
-        this.selectedModules = [{
-          Company: 0,
-          Code: -1,
-          ModuleID: "-1",
-          Vietnamese: 'Tất cả',
-          OrderBy: 0,
-          IsVisible: true,
-          ListGroup: []
-        }];
+        };
+        this.modules = [allItem, ...(resModules.ObjectReturn as ModuleTreeDTO[])];
+        this.selectedModules = [allItem];
         this.modulesSelected.emit(this.selectedModules);
       } else {
         this.modules = [];
@@ -165,10 +158,22 @@ export class PhanQuyenHeader2Component implements OnInit {
       StatusID: dept.StatusID,
       StatusName: dept.StatusName
     }));
-    this.service.getListRoleByDepartment(reqArray).subscribe(rDept => {
-      this.deptRolesSelected.emit(rDept.StatusCode === 0 && rDept.ObjectReturn
-        ? rDept.ObjectReturn as RoleDTO[]
-        : []);
+    const baseRolesFilter: CompositeFilterDescriptor = {
+      logic: 'and',
+      filters: [{ field: 'Company', operator: 'eq', value: 1 }] as FilterDescriptor[]
+    };
+    forkJoin({
+      deptRolesResp: this.service.getListRoleByDepartment(reqArray),
+      globalRolesResp: this.service.getRolesList({ filter: baseRolesFilter })
+    }).subscribe(({ deptRolesResp, globalRolesResp }) => {
+      const deptRoles = (deptRolesResp.StatusCode === 0 && deptRolesResp.ObjectReturn)
+        ? deptRolesResp.ObjectReturn as RoleDTO[]
+        : [];
+      this.deptRolesSelected.emit(deptRoles);
+      const rolesData = (globalRolesResp.StatusCode === 0 && globalRolesResp.ObjectReturn?.Data)
+        ? globalRolesResp.ObjectReturn.Data as RoleDTO[]
+        : [];
+      this.allRoles = rolesData;
       this.isLoading = false;
     }, () => {
       this.deptRolesSelected.emit([]);
